@@ -1,31 +1,36 @@
 var express = require('express');
 var router = express.Router();
+var Note = require('../models/note');
 
-var notes = [
-    {
-        title: "Note 1",
-        content: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos deserunt, inventore pariatur voluptatibus laudantium in."
-    },
-    {
-        title: "Note 1",
-        content: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos deserunt, inventore pariatur voluptatibus laudantium in."
-    }
-];
-
-router.get("/", function(req, res){
-    res.render("notes/index", {notes: notes});
+router.get("/", function (req, res) {
+    Note.find({}, function (err, allNotes) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("notes/index", { notes: allNotes });
+        }
+    });
 });
 
-router.get("/new", function(req, res){
+router.get("/new", function (req, res) {
     res.render("notes/new")
 });
 
-router.post("/new", function(req, res){
-    var newNote = req.body.note;
+router.post("/new", function (req, res) {
+    var note = req.body.note;
 
-    console.log(newNote);
-    notes.push(newNote);
-    res.redirect("/notes");
+    var newNote = { title: note.title, content: note.content };
+
+    Note.create(newNote, function (err, newlyNote) {
+        if (err) {
+            console.log(err);
+        } else {
+            //redirect back to notes page
+            console.log(newlyNote);
+            res.redirect("/notes");
+        }
+    });
+
 });
 
 module.exports = router;
