@@ -2,11 +2,13 @@
 
 <h1>Notes Main Page</h1>
 
-<% notes.forEach(function(note){ %>
-    <div>
-        <h4><%= note.title %></h4>
-        <p><%= note.content %></p>
-    </div>
-<% }) %>
+<% if(notes){ %>
+    <% notes.forEach(function(note){ %>
+        <div>
+            <h4><%= note.title %></h4>
+            <p><%= note.content %></p>
+        </div>
+    <% }) %>
+<% } %>
 
 <% include ../partials/footer %>
