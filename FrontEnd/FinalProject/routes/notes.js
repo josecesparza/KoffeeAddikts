@@ -40,7 +40,7 @@ router.get("/:id/edit", function (req, res) {
 
 //UPDATE - Update the edited note in the DB
 router.put("/:id", function (req, res) {
-    Note.findByIdAndUpdate(req.params.id, function (err, updatedNote) {
+    Note.findByIdAndUpdate(req.params.id, req.body.note,function (err, updatedNote) {
         if (err) {
             console.log(err);
         } else {
