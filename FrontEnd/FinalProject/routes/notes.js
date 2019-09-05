@@ -49,6 +49,16 @@ router.put("/:id", function (req, res) {
     });
 });
 
+//DESTROY ROUTE
+router.delete("/:id", function(req, res){
+    Note.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            console.log(err);
+        } else{
+            res.redirect("/notes");
+        }
+    });
+});
 
 //NEW - Show form to create a new note
 router.get("/new", function (req, res) {
