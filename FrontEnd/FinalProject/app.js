@@ -2,8 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var methodOverride = require('method-override');
 
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
+app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Require Routes

@@ -38,7 +38,16 @@ router.get("/:id/edit", function (req, res) {
     });
 });
 
-
+//UPDATE - Update the edited note in the DB
+router.put("/:id", function (req, res) {
+    Note.findByIdAndUpdate(req.params.id, function (err, updatedNote) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/notes/" + req.params.id);
+        }
+    });
+});
 
 
 //NEW - Show form to create a new note
