@@ -14,17 +14,32 @@ router.get("/", function (req, res) {
 });
 
 //SHOW - Show page of each note, show more info about that note
-router.get("/:id", function(req, res){
+router.get("/:id", function (req, res) {
     //Find note with provided ID
-    Note.findById(req.params.id, function(err, foundNote){
-        if(err){
+    Note.findById(req.params.id, function (err, foundNote) {
+        if (err) {
             console.log(err);
-        } else{
+        } else {
             // Render show template
-            res.render("../views/notes/show", {note: foundNote});
+            res.render("../views/notes/show", { note: foundNote });
         }
     });
 });
+
+//EDIT - Show form to edit the note
+router.get("/:id/edit", function (req, res) {
+    Note.findById(req.params.id, function (err, foundNote) {
+        if (err) {
+            console.log(err);
+        } else {
+            //Render edit template
+            res.render("../views/notes/edit", { note: foundNote });
+        }
+    });
+});
+
+
+
 
 //NEW - Show form to create a new note
 router.get("/new", function (req, res) {
