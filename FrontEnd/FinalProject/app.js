@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
+app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 

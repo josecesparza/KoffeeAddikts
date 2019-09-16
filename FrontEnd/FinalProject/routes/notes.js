@@ -13,6 +13,11 @@ router.get("/", function (req, res) {
     });
 });
 
+//NEW - Show form to create a new note
+router.get("/new", function (req, res) {
+    res.render("notes/new")
+});
+
 //SHOW - Show page of each note, show more info about that note
 router.get("/:id", function (req, res) {
     //Find note with provided ID
@@ -40,7 +45,7 @@ router.get("/:id/edit", function (req, res) {
 
 //UPDATE - Update the edited note in the DB
 router.put("/:id", function (req, res) {
-    Note.findByIdAndUpdate(req.params.id, req.body.note,function (err, updatedNote) {
+    Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
         if (err) {
             console.log(err);
         } else {
@@ -50,19 +55,14 @@ router.put("/:id", function (req, res) {
 });
 
 //DESTROY ROUTE
-router.delete("/:id", function(req, res){
-    Note.findByIdAndRemove(req.params.id, function(err){
-        if(err){
+router.delete("/:id", function (req, res) {
+    Note.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
             console.log(err);
-        } else{
+        } else {
             res.redirect("/notes");
         }
     });
-});
-
-//NEW - Show form to create a new note
-router.get("/new", function (req, res) {
-    res.render("notes/new")
 });
 
 //CREATE - Add new note to the DB
@@ -82,6 +82,5 @@ router.post("/new", function (req, res) {
     });
 
 });
-
-//
+ 
 module.exports = router;
