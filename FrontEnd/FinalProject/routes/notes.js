@@ -23,8 +23,9 @@ router.get("/new", function (req, res) {
 router.post("/new", function (req, res) {
     var note = req.body.note;
     var tag = req.body.tag;
-    var newTag = { name: tag.name };
     var tags = [];
+
+    var newTag = { name: tag.name };
 
     Tag.create(newTag, function (err, newlyTag) {
         if (err) {
@@ -47,8 +48,6 @@ router.post("/new", function (req, res) {
             }
         });
     });
-
-
 
 });
 

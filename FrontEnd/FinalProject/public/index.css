@@ -34,3 +34,15 @@ li a.active {
     color: white;
     background-color: #988a8a;
 }
+
+.tag{
+    border: 1px solid black;
+    margin: 3px;
+    width: 50px;
+    float: left;
+}
+
+#tags{
+    background-color: pink;
+    height: 2em;
+}
