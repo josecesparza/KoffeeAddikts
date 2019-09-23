@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Note = require('../models/note');
+var Tag = require('../models/tag');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
@@ -21,27 +22,40 @@ router.get("/new", function (req, res) {
 //CREATE - Add new note to the DB
 router.post("/new", function (req, res) {
     var note = req.body.note;
-    console.log("TAGS: " + note.tags);
-    var tags = note.tags.split(" ");
-    console.log("ARRAY TAGS: " + tags);
-    var newNote = { title: note.title, content: note.content, tags: tags };
+    var tag = req.body.tag;
+    var newTag = { name: tag.name };
+    var tags = [];
 
-    Note.create(newNote, function (err, newlyNote) {
+    Tag.create(newTag, function (err, newlyTag) {
         if (err) {
-            console.log(err);
+            console.log("ERRORRRR!!!!!!!!!!!!!!!");
         } else {
-            //redirect back to notes page
-            console.log(newlyNote);
-            res.redirect("/notes");
+            console.log("GREAT SUCCESSSSSSS");
+            console.log("New TAG " + newlyTag);
+            tags.push(newlyTag);
         }
+
+        var newNote = { title: note.title, content: note.content, tags: tags };
+
+        Note.create(newNote, function (err, newlyNote) {
+            if (err) {
+                console.log(err);
+            } else {
+                //redirect back to notes page
+                console.log(newlyNote);
+                res.redirect("/notes");
+            }
+        });
     });
+
+
 
 });
 
 //SHOW - Show page of each note, show more info about that note
 router.get("/:id", function (req, res) {
     //Find note with provided ID
-    Note.findById(req.params.id, function (err, foundNote) {
+    Note.findById(req.params.id).populate("tags").exec(function (err, foundNote) {
         if (err) {
             console.log(err);
         } else {
