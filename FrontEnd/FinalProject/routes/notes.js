@@ -27,28 +27,48 @@ router.post("/new", function (req, res) {
 
     var newTag = { name: tag.name };
 
-    Tag.create(newTag, function (err, newlyTag) {
+    Tag.find({ name: tag.name }, function (err, foundedTag) {
         if (err) {
-            console.log("ERRORRRR!!!!!!!!!!!!!!!");
+            console.log(err);
         } else {
-            console.log("GREAT SUCCESSSSSSS");
-            console.log("New TAG " + newlyTag);
-            tags.push(newlyTag);
-        }
-
-        var newNote = { title: note.title, content: note.content, tags: tags };
-
-        Note.create(newNote, function (err, newlyNote) {
-            if (err) {
-                console.log(err);
+            if (foundedTag) {
+                console.log("This tag already exists...");
+                
+                var newNote = { title: note.title, content: note.content, tags: foundedTag };
+                Note.create(newNote, function (err, newlyNote) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //redirect back to notes page
+                        console.log(newlyNote);
+                        res.redirect("/notes");
+                    }
+                });
             } else {
-                //redirect back to notes page
-                console.log(newlyNote);
-                res.redirect("/notes");
-            }
-        });
-    });
+                Tag.create(newTag, function (err, newlyTag) {
+                    if (err) {
+                        console.log("ERRORRRR!!!!!!!!!!!!!!!");
+                    } else {
+                        console.log("GREAT SUCCESSSSSSS");
+                        console.log("New TAG " + newlyTag);
+                        tags.push(newlyTag);
+                    }
 
+                    var newNote = { title: note.title, content: note.content, tags: tags };
+
+                    Note.create(newNote, function (err, newlyNote) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            //redirect back to notes page
+                            console.log(newlyNote);
+                            res.redirect("/notes");
+                        }
+                    });
+                });
+            }
+        }
+    });
 });
 
 //SHOW - Show page of each note, show more info about that note

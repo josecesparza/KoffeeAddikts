@@ -1,1 +1,7 @@
-<h1>Let's do it</h1>
+<h2>Notes attached to <%= tag.name %></h2>
+<% if (notes) { %>
+   <% notes.forEach(function(note){ %>
+    <%= note.id %>
+    <%= note.title %>
+   <% });%>
+<% }%>

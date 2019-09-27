@@ -8,13 +8,15 @@
 </div>
 
 <% if(notes){ %>
+    <div class="grid-container">
     <% notes.forEach(function(note){ %>
-        <div>
+        <div class="grid-item">
             <h4><%= note.title %></h4>
-            <p><%= note.content %></p>
+            <p><%= note.content.substr(0,15) %></p>
             <a href="/notes/<%= note._id %>">More Info</a>
         </div>
     <% }) %>
+    </div>
 <% } %>
 
 <% include ../partials/footer %>

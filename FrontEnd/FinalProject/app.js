@@ -5,13 +5,14 @@ var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
-
-var Tag = require('./models/tag');
+var seedDB = require('./seeds');
 
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
+
+seedDB();
 
 //Require Routes
 var notesRoutes = require('./routes/notes');

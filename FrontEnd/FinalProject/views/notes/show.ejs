@@ -5,7 +5,7 @@
 <% if(note.tags.length > 0){ %>
     <h2>Tags</h2>
     <% note.tags.forEach(function(tag){ %>
-        <a href="/notes/<%= note._id %>/tags" class="tag"><%= tag.name %></a>
+        <a href="/notes/<%= note._id %>/tags/<%= tag._id %>" class="tag"><%= tag.name %></a>
     <% }); %>
 <% } %>
 
