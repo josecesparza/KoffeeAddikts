@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Note = require('../models/note');
-var Tag = require('../models/tag');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
@@ -22,34 +21,17 @@ router.get("/new", function (req, res) {
 //CREATE - Add new note to the DB
 router.post("/new", function (req, res) {
     var note = req.body.note;
-    var tag = req.body.tag;
-    var newTag = { name: tag.name };
-    var tags = [];
+    var newNote = { title: note.title, content: note.content };
 
-    Tag.create(newTag, function (err, newlyTag) {
+    Note.create(newNote, function (err, newlyNote) {
         if (err) {
-            console.log("ERRORRRR!!!!!!!!!!!!!!!");
+            console.log(err);
         } else {
-            console.log("GREAT SUCCESSSSSSS");
-            console.log("New TAG " + newlyTag);
-            tags.push(newlyTag);
+            //redirect back to notes page
+            console.log(newlyNote);
+            res.redirect("/notes");
         }
-
-        var newNote = { title: note.title, content: note.content, tags: tags };
-
-        Note.create(newNote, function (err, newlyNote) {
-            if (err) {
-                console.log(err);
-            } else {
-                //redirect back to notes page
-                console.log(newlyNote);
-                res.redirect("/notes");
-            }
-        });
     });
-
-
-
 });
 
 //SHOW - Show page of each note, show more info about that note

@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //Require Routes
 var notesRoutes = require('./routes/notes');
+var tagsRoutes = require('./routes/tags');
 
 app.set("view engine", "ejs");
 
@@ -21,6 +22,7 @@ app.get("/", function(req, res){
 });
 
 app.use("/notes", notesRoutes);
+app.use("/tags", tagsRoutes);
 
 app.listen(3000, process.env.IP, function(){
     console.log("Server has started!");
