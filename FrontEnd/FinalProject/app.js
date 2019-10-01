@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var User = require('./models/user')
 
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
 app.use(express.static(__dirname + "/public"));
@@ -34,6 +35,29 @@ app.get("/", function(req, res){
 });
 
 app.use("/notes", notesRoutes);
+
+//========================
+//AUTH ROUTES
+//========================
+//Show register form
+app.get("/register", function(req, res){
+    res.render("users/register");
+});
+
+//Handling sign up logic 
+app.post("/register", function(req, res){
+    var newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("users/register");
+        }
+
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/notes");
+        });
+    });
+});
 
 app.listen(3000, process.env.IP, function(){
     console.log("Server has started!");
