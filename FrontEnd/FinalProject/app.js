@@ -59,6 +59,23 @@ app.post("/register", function(req, res){
     });
 });
 
+//SHOW LOGIN FORM
+app.get("/login", function (req, res) {
+    res.render("users/login");
+});
+
+//Handling login logic
+//app.post("/login", middleware, callback);
+//When we call passport.authenticate we're calling a method using passport-local-mongoose
+app.post("/login", passport.authenticate("local",
+    {
+        successRedirect: "/notes",
+        failureRedirect: "/login"
+    }), function (req, res) {
+    }
+);
+
+
 app.listen(3000, process.env.IP, function(){
     console.log("Server has started!");
 });
