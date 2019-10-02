@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Note = require('../models/note');
+var middleware = require('../middleware/index');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
@@ -14,7 +15,7 @@ router.get("/", function (req, res) {
 });
 
 //NEW - Show form to create a new note
-router.get("/new", function (req, res) {
+router.get("/new", middleware.isLoggedIn,function (req, res) {
     res.render("notes/new")
 });
 
@@ -32,7 +33,7 @@ router.get("/:id", function (req, res) {
 });
 
 //EDIT - Show form to edit the note
-router.get("/:id/edit", function (req, res) {
+router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
     Note.findById(req.params.id, function (err, foundNote) {
         if (err) {
             console.log(err);
@@ -66,7 +67,7 @@ router.delete("/:id", function (req, res) {
 });
 
 //CREATE - Add new note to the DB
-router.post("/new", function (req, res) {
+router.post("/new", middleware.isLoggedIn, function (req, res) {
     var note = req.body.note;
 
     var newNote = { title: note.title, content: note.content };
