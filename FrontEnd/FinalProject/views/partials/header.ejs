@@ -14,10 +14,10 @@
         <li class="nav-left"><a href="/notes">Notes</a></li>
         <li class="nav-left"><a href="/notes/new">Add New Note</a></li>
         <% if(!currentUser){ %>
-            <li class="nav-right"><a href="/register">Sign Up</a></li>
-            <li class="nav-right"><a href="/login">Log In</a></li>
+            <li class="nav-right"><a href="/user/register">Sign Up</a></li>
+            <li class="nav-right"><a href="/user/login">Log In</a></li>
         <% } else { %>
-            <li class="nav-right"><a href="/logout">Logout</a></li>
+            <li class="nav-right"><a href="/user/logout">Logout</a></li>
             <li class="nav-right"><a href="#">Hi <%= currentUser.username  %>!</a></li>
         <% } %>
     </ul>

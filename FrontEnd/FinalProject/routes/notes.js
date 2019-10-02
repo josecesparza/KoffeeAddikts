@@ -69,8 +69,12 @@ router.delete("/:id", function (req, res) {
 //CREATE - Add new note to the DB
 router.post("/new", middleware.isLoggedIn, function (req, res) {
     var note = req.body.note;
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
 
-    var newNote = { title: note.title, content: note.content };
+    var newNote = { title: note.title, content: note.content, author: author };
 
     Note.create(newNote, function (err, newlyNote) {
         if (err) {
