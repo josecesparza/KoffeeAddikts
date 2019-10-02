@@ -75,6 +75,11 @@ app.post("/login", passport.authenticate("local",
     }
 );
 
+//logout route
+app.get("/logout", function (req, res) {
+    req.logOut();
+    res.redirect("/notes");
+});
 
 app.listen(3000, process.env.IP, function(){
     console.log("Server has started!");
