@@ -1,8 +1,8 @@
 <% include ./partials/header %>
 
 <h1>First Step</h1>
-<form>
-    <input type="radio" name="userType" value="bussiness" checked> Bussiness<br>
+<form action="/preregister" method="POST">
+    <input type="radio" name="userType" value="business" checked> Business<br>
     <input type="radio" name="userType" value="personal" checked> Personal<br>
     <input type="submit" value="Submit">
 </form>

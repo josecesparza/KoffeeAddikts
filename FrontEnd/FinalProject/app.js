@@ -13,7 +13,7 @@ var seedDB = require('./seeds');
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
@@ -30,7 +30,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     //We're passing the user info
     res.locals.currentUser = req.user;
     next();
@@ -41,13 +41,26 @@ var notesRoutes = require('./routes/notes');
 var usersRoutes = require('./routes/users')
 
 
-app.get("/", function(req, res){
+app.get("/", function (req, res) {
     res.render("index");
+});
+
+app.get("/preregister", function (req, res) {
+    res.render("preregister");
+});
+
+app.post("/preregister", function (req, res) {
+    var userType = req.body.userType;
+    if (userType == "business") {
+        res.send("Helloo business");
+    } else if (userType == "personal") {
+        res.redirect("/user/register")
+    }
 });
 
 app.use("/user", usersRoutes);
 app.use("/notes", notesRoutes);
 
-app.listen(3000, process.env.IP, function(){
+app.listen(3000, process.env.IP, function () {
     console.log("Server has started!");
 });
