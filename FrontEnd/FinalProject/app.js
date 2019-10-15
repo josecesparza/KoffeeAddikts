@@ -8,7 +8,7 @@ var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 
 var seedDB = require('./seeds');
-//seedDB();
+// seedDB();
 
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
 app.use(express.static(__dirname + "/public"));
@@ -37,29 +37,19 @@ app.use(function (req, res, next) {
 });
 
 //Require Routes
-var notesRoutes = require('./routes/notes');
-var usersRoutes = require('./routes/users')
+var coffeesRoutes = require('./routes/notes');
+var usersRoutes = require('./routes/users');
+var commentRoutes = require('./routes/comments');
 
 
 app.get("/", function (req, res) {
     res.render("index");
 });
 
-app.get("/preregister", function (req, res) {
-    res.render("preregister");
-});
-
-app.post("/preregister", function (req, res) {
-    var userType = req.body.userType;
-    if (userType == "business") {
-        res.send("Helloo business");
-    } else if (userType == "personal") {
-        res.redirect("/user/register")
-    }
-});
 
 app.use("/user", usersRoutes);
-app.use("/notes", notesRoutes);
+app.use("/notes", coffeesRoutes);
+app.use("/notes/:id/comments", commentRoutes);
 
 app.listen(3000, process.env.IP, function () {
     console.log("Server has started!");

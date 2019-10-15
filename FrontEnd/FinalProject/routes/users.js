@@ -4,23 +4,28 @@ var passport = require('passport');
 var User = require('../models/user');
 
 //Show register form
-router.get("/register", function(req, res){
+router.get("/register", function (req, res) {
     res.render("users/register");
 });
 
 //Handling sign up logic 
-router.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            console.log(err);
-            return res.render("users/register");
+router.post("/register", function (req, res) {
+        var newUser = new User({ username: req.body.username });
+        if (req.body.businessCode === "secretcode123") {
+            newUser.isBusiness = true;
         }
 
-        passport.authenticate("local")(req, res, function(){
-            res.redirect("/notes");
+        User.register(newUser, req.body.password, function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.render("users/register");
+            }
+
+            passport.authenticate("local")(req, res, function () {
+                res.redirect("/notes");
+            });
+
         });
-    });
 });
 
 //SHOW LOGIN FORM

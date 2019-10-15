@@ -4,7 +4,8 @@ var User = require('./models/user');
 var Comment = require('./models/comment');
 
 var newUser = new User({
-    username: "test"
+    username: "test",
+    isBusiness: true
 });
 
 var newUserPass = "test";

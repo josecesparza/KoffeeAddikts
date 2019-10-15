@@ -4,7 +4,7 @@
 <head>
     <!-- Make site responsive on mobile/tablet -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NotesApp</title>
+    <title>C&C</title>
     <link rel="stylesheet" type="text/css" href="/index.css">
 </head>
 
@@ -14,7 +14,7 @@
         <li class="nav-left"><a href="/notes">Notes</a></li>
         <li class="nav-left"><a href="/notes/new">Add New Note</a></li>
         <% if(!currentUser){ %>
-            <li class="nav-right"><a href="/preregister">Sign Up</a></li>
+            <li class="nav-right"><a href="/user/register">Sign Up</a></li>
             <li class="nav-right"><a href="/user/login">Log In</a></li>
         <% } else { %>
             <li class="nav-right"><a href="/user/logout">Logout</a></li>
