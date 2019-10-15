@@ -11,8 +11,10 @@
 <body>
     <ul>
         <li class="nav-left"><a href="/">Home</a></li>
-        <li class="nav-left"><a href="/notes">Notes</a></li>
-        <li class="nav-left"><a href="/notes/new">Add New Note</a></li>
+        <li class="nav-left"><a href="/notes">Coffee</a></li>
+        <% if(currentUser && currentUser.isBusiness){ %>
+        <li class="nav-left"><a href="/notes/new">Add New Coffee</a></li>
+        <% } %>
         <% if(!currentUser){ %>
             <li class="nav-right"><a href="/user/register">Sign Up</a></li>
             <li class="nav-right"><a href="/user/login">Log In</a></li>
