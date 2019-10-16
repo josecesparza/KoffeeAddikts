@@ -5,7 +5,7 @@
 <% if(notes){ %>
     <% notes.forEach(function(note){ %>
         <div>
-            <h4><%= note.title %></h4>
+            <h4><%= note.name %></h4>
             <p><%= note.content %></p>
             <a href="/notes/<%= note._id %>">More Info</a>
         </div>

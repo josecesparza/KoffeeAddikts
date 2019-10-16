@@ -27,7 +27,8 @@ function seedDB() {
 
                     var notesData = [
                         {
-                            title: "Note 1",
+                            name: "CappuccinoK",
+                            kind: "Cappuccino",
                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat sem eget tellus viverra maximus.",
                             author: {
                                 id: newlyUser._id,
@@ -35,7 +36,8 @@ function seedDB() {
                             }
                         },
                         {
-                            title: "Note 2",
+                            name: "LatteK",
+                            kind: "Latte",
                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat sem eget tellus viverra maximus.",
                             author: {
                                 id: newlyUser._id,
@@ -43,7 +45,8 @@ function seedDB() {
                             }
                         },
                         {
-                            title: "Note 3",
+                            name: "EspressoK",
+                            kind: "Espresso",
                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam volutpat sem eget tellus viverra maximus.",
                             author: {
                                 id: newlyUser._id,
@@ -63,7 +66,7 @@ function seedDB() {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    console.log("New note created: " + newlyNote.title);
+                                    console.log("New coffee created: " + newlyNote.name);
 
                                     //REMOVE COMMENTS
                                     Comment.remove({}, function (err) {

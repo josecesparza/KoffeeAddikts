@@ -74,7 +74,7 @@ router.post("/new", middleware.isBusiness, function (req, res) {
         username: req.user.username
     };
 
-    var newNote = { title: note.title, content: note.content, author: author };
+    var newNote = { name: note.name, content: note.content, author: author };
 
     Note.create(newNote, function (err, newlyNote) {
         if (err) {

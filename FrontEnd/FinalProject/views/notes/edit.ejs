@@ -3,7 +3,7 @@
 <h1>Edit Note</h1>
 
 <form action="/notes/<%= note._id %>?_method=PUT" method="POST">
-    <input type="text" name="note[title]" value="<%= note.title %>">
+    <input type="text" name="note[name]" value="<%= note.name %>">
     <input type="text" name="note[content]" value="<%= note.content %>">
     <button>Submit!</button>
 </form>

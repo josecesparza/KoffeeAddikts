@@ -1,12 +1,29 @@
 body {
-    background-color: #000;
+    background-color: #6F4E37;
+    background-image: url("./landing-page.jpg");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: -650px;
+    background-size: cover;
 }
 
+.container{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+ #landing-img {
+    position: static;
+} 
+
 #landing-header {
-    z-index: 1;
     position: relative;
     text-align: center;
-    padding-top: 40vh;
 }
 
 #landing-header h1 {
@@ -30,7 +47,8 @@ a.but {
 
 a.but:hover {
     color: #000000;
-    background-color: #FFFFFF;
+    background-color: #63d963;
+    border: 0.1em solid #63d963;
 }
 
 @media all and (max-width:30em) {

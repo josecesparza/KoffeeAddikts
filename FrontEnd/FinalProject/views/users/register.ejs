@@ -1,12 +1,14 @@
 <% include ../partials/header %>
 
-<h1>Sign Up</h1>
+<div class="container">
+    <h1>Sign Up</h1>
 
-<form action="/user/register" method="POST">
-    <input type="text" name="username" placeholder="username" required>
-    <input type="password" name="password" placeholder="password" required>
-    <input type="password" name="businessCode" placeholder="Busines Code">
-    <button>Sign Up</button>
-</form> 
+    <form class="userForm" action="/user/register" method="POST">
+        <input class="userInput" type="text" name="username" placeholder="username" required>
+        <input class="userInput" type="password" name="password" placeholder="password" required>
+        <input class="userInput" type="password" name="businessCode" placeholder="Busines Code">
+        <button class="userSubmitB">Sign Up</button>
+    </form>
+</div>
 
-<% include ../partials/footer %> 
+<% include ../partials/footer %>
