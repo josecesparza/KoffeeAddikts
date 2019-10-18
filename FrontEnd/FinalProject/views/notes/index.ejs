@@ -1,15 +1,69 @@
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .parallax {
+        /* The image used */
+        background-image: url("/coffee-beans.jpg");
+        height: 100%;
+        /* Set a specific height */
+        min-height: 500px;
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    #coffees {
+        background-image: url("/coffee-tools.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding: 0 2%;
+        height: 100%;
+    }
+
+    @media all and (min-width: 800px) {
+        .home-phrase {
+            float: right;
+            font-size: 8em;
+            margin: 0;
+            text-align: right;
+            width: 70%;
+        }
+    }
+
+    .home-phrase {
+        float: right;
+        font-size: 6em;
+        margin: auto;
+        text-align: center;
+    }
+
+    #arrow {
+        display: flex;
+        margin: 33em 45%;
+    }
+</style>
+
 <% include ../partials/header %>
 
-<h1>Notes Main Page</h1>
-
-<% if(notes){ %>
-    <% notes.forEach(function(note){ %>
+<div class="parallax">
+    <% include ../partials/navbar %>
+    <p class="home-phrase">So that you may not be sluggish</p>
+    <a id=arrow href="#coffees"><img src="/svg/arrow.svg"></a>
+</div>
+<div id="coffees">
+    <div>
+        <% if(notes){ %>
+        <% notes.forEach(function(note){ %>
         <div>
             <h4><%= note.name %></h4>
             <p><%= note.content %></p>
             <a href="/notes/<%= note._id %>">More Info</a>
         </div>
-    <% }) %>
-<% } %>
-
-<% include ../partials/footer %>
+        <% }) %>
+        <% } %>
+    </div>
+</div>

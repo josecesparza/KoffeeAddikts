@@ -1,31 +1,55 @@
 <% include ../partials/header %>
+<% include ../partials/navbar %>
 
 <div class="container">
-    <h1><%= note.name %></h1>
-    <h1><%= note.kind %></h1>
-    <p><%= note.author.username %></p>
+    <div id="info" class="wrapper">
+        <div class="wrapper">
+            <div class="info-item aside left-info">
+                <h1 id="koffee-title"><%= note.name %></h1>
+                <p><%= note.content %></p>
+            </div>
+            <div class="info-item aside info-img">
+                <img height="auto" src="/es1.png">
+            </div>
+        </div>
 
-    <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
-    <a href="/notes/<%= note._id %>/edit">Edit</a>
+        <div class="wrapper">
+            <div class="info-item aside info-location">
+                <h1>Location</h1>
+            </div>
+            <div class="info-item aside right-info">
+                <h1><%= note.kind %></h1>
+            </div>
+        </div>
 
-    <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    <% } %>
-    <a href="/notes/<%= note._id %>/comments/new">Add Comment</a>
+    </div>
 
-    <% note.comments.forEach(function(comment){ %>
-    <p>
-        <strong><%= comment.author.username %></strong> - <%= comment.text %>
-        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-        <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">EditC</a>
-        <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
-            method="POST">
-            <input type="submit" value="Delete">
+    <div class="info-item comments">
+        <p><%= note.author.username %></p>
+
+        <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
+        <a href="/notes/<%= note._id %>/edit">Edit</a>
+
+        <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
         </form>
         <% } %>
-    </p>
-    <% }); %>
+        <a href="/notes/<%= note._id %>/comments/new">Add Comment</a>
+
+        <% note.comments.forEach(function(comment){ %>
+        <p>
+            <strong><%= comment.author.username %></strong> - <%= comment.text %>
+            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">EditC</a>
+            <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
+                method="POST">
+                <input type="submit" value="Delete">
+            </form>
+            <% } %>
+        </p>
+        <% }); %>
+    </div>
+
 </div>
 
 <% include ../partials/footer %>

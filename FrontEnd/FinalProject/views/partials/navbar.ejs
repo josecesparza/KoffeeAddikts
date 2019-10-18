@@ -1,0 +1,19 @@
+<ul id="navbar">
+    <li class="nav-left" style="padding: 4px 5px"><a href="/">
+            <img src="/svg/logo.svg" width="32px">
+        </a></li>
+    <li class="nav-left"><a class="navbar-item navbar-text" href="/notes">Koffee</a></li>
+    <% if(currentUser && currentUser.isBusiness){ %>
+    <li class="nav-left"><a class="navbar-item  navbar-text" href="/notes/new">Add New Koffee</a></li>
+    <% } %>
+    <% if(!currentUser){ %>
+    <li class="nav-right" style="padding-top: 10px"><a href="/user/login">
+            <img src="/svg/power.svg" width="24px">
+        </a></li>
+    <% } else { %>
+    <li class="nav-right" style="padding-top: 10px"><a href="/user/logout">
+            <img src="/svg/power-off.svg" width="24px">
+        </a></li>
+    <li class="nav-right"><a class="navbar-item navbar-text" href="#">Hi <%= currentUser.username  %>!</a></li>
+    <% } %>
+</ul>

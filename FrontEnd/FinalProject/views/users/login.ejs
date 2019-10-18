@@ -1,12 +1,14 @@
 <% include ../partials/header %>
+<% include ../partials/navbar %>
 
 <div class="container">
     <h1>Login</h1>
-    <form action="/user/login" method="post">
+    <form action="/user/login" method="post" autocomplete="off">
         <input class="userInput" type="text" name="username" placeholder="username">
         <input class="userInput" type="password" name="password" placeholder="password">
         <input class="userSubmitB" type="submit" value="Login">
     </form>
+    <p>You don't have account yet? Please to sign in click <a id="aRegister" href="/user/register">here</a></p>
 </div>
 
 <% include ../partials/footer %>

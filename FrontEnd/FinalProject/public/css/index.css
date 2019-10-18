@@ -1,0 +1,151 @@
+body, html {
+    margin: 0;
+    background: #000000;
+    color: #ffffff;
+    height: 100%;
+}
+
+h4{
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.container {
+    padding: 0 2%;
+    display: grid;
+}
+
+/* svg {
+    width: 32px;
+    height: 32px;
+    padding-top: 2px
+} */
+
+/* NAVBAR */
+
+#navbar {
+    border-bottom: 1px solid #ffffff;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 2%;
+}
+
+.nav-left {
+    float: left;
+}
+
+.nav-right {
+    float: right;
+}
+
+.navbar-text {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+}
+
+.navbar-item:hover {
+    background-color: #385970;
+}
+
+/* USER FORM */
+
+.userInput {
+    background-color: #000000;
+    color: #ffffff;
+    width: 25%;
+    padding: 12px;
+    border: 0px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1px;
+    resize: vertical;
+    display: block;
+}
+
+.userSubmitB {
+    background-color: #000000;
+    color: #4CAF50;
+    padding: 12px 20px;
+    border: 1px solid #4CAF50;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+    margin: 1em 0;
+}
+
+.userSubmitB:hover {
+    background-color: #45a049;
+    color: white;
+    transition-duration: 500ms;
+}
+
+.userInput:hover {
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 0px;
+}
+
+#aRegister:hover {
+    color: #4CAF50;
+}
+
+/* KOFFEE INFO */
+
+#info {
+    margin-top: 1%;
+}
+
+#koffee-title{
+    width: auto;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+}
+
+.wrapper {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.wrapper>* {
+    flex: 1 100%;
+}
+
+.info-item {
+    border-radius: 10px;
+}
+
+@media all and (min-width: 600px) {
+    .aside {
+        flex: 1 0 0;
+    }
+}
+
+@media all and (min-width: 800px) {
+    .left-info {
+        order: 1;
+    }
+    .info-img {
+        order: 2;
+        border: 1px solid #ffffff;
+    }
+    .info-location {
+        order: 3;
+    }
+    .right-info {
+        order: 4;
+    }
+    .comments {
+        order: 5;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .userInput {
+        width: 90%;
+    }
+}
