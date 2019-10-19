@@ -3,19 +3,21 @@
 
 <div class="container">
     <div id="info" class="wrapper">
-        <div class="wrapper">
+        <div class="wrapper" style="height: 50%;">
             <div class="info-item aside left-info">
                 <h1 id="koffee-title"><%= note.name %></h1>
                 <p><%= note.content %></p>
+                <p><%= note.location.lat %></p>
+                <p><%= note.location.lng %></p>
             </div>
             <div class="info-item aside info-img">
                 <img height="auto" src="/es1.png">
             </div>
         </div>
 
-        <div class="wrapper">
+        <div class="wrapper" style="height: 50%; ">
             <div class="info-item aside info-location">
-                <h1>Location</h1>
+                <div id="map"></div>
             </div>
             <div class="info-item aside right-info">
                 <h1><%= note.kind %></h1>
@@ -24,7 +26,7 @@
 
     </div>
 
-    <div class="info-item comments">
+    <div class="info-item comments" style="height: 100%; position: relative; margin: 15% 0;">
         <p><%= note.author.username %></p>
 
         <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
@@ -51,5 +53,20 @@
     </div>
 
 </div>
+
+<script>
+    var map;
+    function initMap() {
+        var position = { lat: <%= note.location.lat %>, lng: <%= note.location.lng %> };
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: position,
+            zoom: 15
+        });
+
+        var marker = new google.maps.Marker({ position: position, map: map });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMEK33apiDfGBs4sfltinmRJT3xnGAS6s&callback=initMap" async
+    defer></script>
 
 <% include ../partials/footer %>

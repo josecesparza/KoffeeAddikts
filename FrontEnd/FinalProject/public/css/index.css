@@ -3,6 +3,12 @@ body, html {
     background: #000000;
     color: #ffffff;
     height: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }
 
 h4{
@@ -94,14 +100,62 @@ a {
     color: #4CAF50;
 }
 
+/* FRONT PAGE */
+
+.parallax {
+    /* The image used */
+    background-image: url("/coffee-beans.jpg");
+    height: 100%;
+    /* Set a specific height */
+    min-height: 500px;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#coffees {
+    background-image: url("/coffee-tools.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 0 2%;
+    height: 100%;
+}
+
+@media all and (min-width: 900px) {
+    .home-phrase {
+        float: right;
+        font-size: 8em;
+        margin: 0 2%;
+        text-align: right;
+        width: 55%;
+    }
+}
+
+@media all and (max-width: 900px) {
+    .home-phrase {
+        float: right;
+        font-size: 6em;
+        margin: 0 2%;
+        text-align: center;
+    }
+}
+
+#arrow {
+    display: flex;
+    margin: 33em 45%;
+}
+
 /* KOFFEE INFO */
 
 #info {
     margin-top: 1%;
+    width: 100%;
 }
 
 #koffee-title{
-    width: auto;
+    width: fit-content;
     padding-bottom: 20px;
     border-bottom: 1px solid white;
 }
@@ -117,6 +171,17 @@ a {
 
 .info-item {
     border-radius: 10px;
+}
+
+.info-location{
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+}
+
+#map{
+    height: 100%;
+    width: 100%;
 }
 
 @media all and (min-width: 600px) {
@@ -135,17 +200,23 @@ a {
     }
     .info-location {
         order: 3;
+        border: 1px solid #ffffff;
     }
     .right-info {
         order: 4;
     }
     .comments {
         order: 5;
+        display: inline;
     }
 }
 
 @media screen and (max-width: 600px) {
     .userInput {
         width: 90%;
+    }
+
+    .info-img{
+        width: 10px;
     }
 }

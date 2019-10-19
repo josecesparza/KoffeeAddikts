@@ -11,6 +11,10 @@ var noteSchema = new mongoose.Schema({
         },
         username: String
     },
+    location: {
+        lat: String,
+        lng:String
+    },
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,

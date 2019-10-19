@@ -15,14 +15,14 @@ router.get("/", function (req, res) {
 });
 
 //NEW - Show form to create a new note
-router.get("/new", middleware.isBusiness,function (req, res) {
+router.get("/new", middleware.isBusiness, function (req, res) {
     res.render("notes/new")
 });
 
 //SHOW - Show page of each note, show more info about that note
 router.get("/:id", function (req, res) {
     //Find note with provided ID
-    Note.findById(req.params.id).populate("comments").exec( function (err, foundNote) {
+    Note.findById(req.params.id).populate("comments").exec(function (err, foundNote) {
         if (err) {
             console.log(err);
         } else {
@@ -74,7 +74,12 @@ router.post("/new", middleware.isBusiness, function (req, res) {
         username: req.user.username
     };
 
-    var newNote = { name: note.name, content: note.content, author: author };
+    var location = {
+        lat: note.lat,
+        lng: note.lng
+    }
+
+    var newNote = { name: note.name, content: note.content, author: author, location: location };
 
     Note.create(newNote, function (err, newlyNote) {
         if (err) {
@@ -87,5 +92,5 @@ router.post("/new", middleware.isBusiness, function (req, res) {
     });
 
 });
- 
+
 module.exports = router;

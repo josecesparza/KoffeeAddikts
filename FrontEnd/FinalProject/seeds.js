@@ -33,6 +33,10 @@ function seedDB() {
                             author: {
                                 id: newlyUser._id,
                                 username: newlyUser.username
+                            },
+                            location:{
+                                lat: "39.2801",
+                                lng: "-0.2238"
                             }
                         },
                         {
@@ -42,6 +46,10 @@ function seedDB() {
                             author: {
                                 id: newlyUser._id,
                                 username: newlyUser.username
+                            },
+                            location:{
+                                lat: "38.8218912",
+                                lng: "-0.606323"
                             }
                         },
                         {
@@ -51,6 +59,10 @@ function seedDB() {
                             author: {
                                 id: newlyUser._id,
                                 username: newlyUser.username
+                            },
+                            location:{
+                                lat: "38.8218912",
+                                lng: "-0.606323"
                             }
                         }
                     ];
