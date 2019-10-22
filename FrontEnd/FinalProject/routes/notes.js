@@ -5,13 +5,24 @@ var middleware = require('../middleware/index');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
-    Note.find({}, function (err, allNotes) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("notes/index", { notes: allNotes });
-        }
-    });
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Note.find({ name: regex }, function (err, regexNotes) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("notes/index", { notes: regexNotes });
+            }
+        });
+    } else {
+        Note.find({}, function (err, allNotes) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("notes/index", { notes: allNotes });
+            }
+        });
+    }
 });
 
 //NEW - Show form to create a new note
@@ -92,5 +103,7 @@ router.post("/new", middleware.isBusiness, function (req, res) {
     });
 
 });
-
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 module.exports = router;

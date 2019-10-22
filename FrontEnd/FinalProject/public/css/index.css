@@ -7,11 +7,11 @@ body, html {
     -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar { 
-    display: none; 
+::-webkit-scrollbar {
+    display: none;
 }
 
-h4{
+h4 {
     margin: 0;
 }
 
@@ -56,9 +56,9 @@ a {
     padding: 14px 16px;
 }
 
-.navbar-item:hover {
+/* .navbar-item:hover {
     background-color: #385970;
-}
+} */
 
 /* USER FORM */
 
@@ -72,6 +72,7 @@ a {
     margin-bottom: 1px;
     resize: vertical;
     display: block;
+    outline: none;
 }
 
 .userSubmitB {
@@ -85,15 +86,15 @@ a {
     margin: 1em 0;
 }
 
+.userInput:hover {
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 0px;
+}
+
 .userSubmitB:hover {
     background-color: #45a049;
     color: white;
     transition-duration: 500ms;
-}
-
-.userInput:hover {
-    border-bottom: 2px solid #ccc;
-    margin-bottom: 0px;
 }
 
 #aRegister:hover {
@@ -154,7 +155,7 @@ a {
     width: 100%;
 }
 
-#koffee-title{
+#koffee-title {
     width: fit-content;
     padding-bottom: 20px;
     border-bottom: 1px solid white;
@@ -173,13 +174,13 @@ a {
     border-radius: 10px;
 }
 
-.info-location{
+.info-location {
     width: auto;
     height: 100%;
     overflow: hidden;
 }
 
-#map{
+#map {
     height: 100%;
     width: 100%;
 }
@@ -215,8 +216,7 @@ a {
     .userInput {
         width: 90%;
     }
-
-    .info-img{
+    .info-img {
         width: 10px;
     }
 }

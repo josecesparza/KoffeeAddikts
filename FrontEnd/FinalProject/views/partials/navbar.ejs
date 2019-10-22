@@ -1,3 +1,45 @@
+<style>
+    .searcher {
+        float: left;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 15px;
+    }
+
+    #search-input {
+        background: none;
+        border: none;
+        color: white;
+        /* border: 1px solid white; */
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    #search-input::placeholder {
+        color: white;
+        opacity: 1;
+    }
+
+    /* #search-input:focus {
+        border: 1px solid #45a049;
+    } */
+
+    #searchB {
+        background: none;
+        color: white;
+        border: 1px solid white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #searchB:hover {
+        background-color: #45a049;
+        border: 1px solid #45a049;
+        color: white;
+        transition-duration: 500ms;
+    }
+</style>
 <ul id="navbar">
     <li class="nav-left" style="padding: 4px 5px"><a href="/">
             <img src="/svg/logo.svg" width="32px">
@@ -6,6 +48,14 @@
     <% if(currentUser && currentUser.isBusiness){ %>
     <li class="nav-left"><a class="navbar-item  navbar-text" href="/notes/new">Add New Koffee</a></li>
     <% } %>
+
+    <div class="searcher">
+        <form action="/notes" method="GET" autocomplete="off">
+            <input id="search-input" type="text" name="search" placeholder="text to search">
+            <input id="searchB" type="submit" value="Search">
+        </form>
+    </div>
+
     <% if(!currentUser){ %>
     <li class="nav-right" style="padding-top: 10px"><a href="/user/login">
             <img src="/svg/power.svg" width="24px">
