@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+<div class="container">
+    <h1>Editing <%= foundUser.uername %>'s profile</h1>
+    <form action="/user/<%= foundUser._id %>?_method=PUT" method="POST">
+        <div>
+            <input type="text" name="user[name]" placeholder="name" value="<%= foundUser.name %>">
+        </div>
+        <div>
+            <input type="text" name="user[surnames]" placeholder="surnames" value="<%= foundUser.surnames %>">
+        </div>
+        <button>Update</button>
+    </form>
+    <a href="/user/<%= foundUser._id %>">Go back</a>
+</div>
+
+<% include ../partials/footer %>

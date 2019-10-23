@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+<div class="container">
+    <%  if(foundUser){ %>
+    <h1><%=  foundUser.username %>'s Profile</h1>
+    <div>
+        <li>Username: <%=  foundUser.username %></li>
+        <li>Name: <%  if(foundUser.name){ %>
+            <%= foundUser.name %>
+            <% } %></li>
+        <li style="margin-bottom: 0.5em">Surname: <%  if(foundUser.email){ %>
+            <%= foundUser.email %>
+            <% } %></li>
+        <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
+        <a href="/user/<%= foundUser._id %>/edit">Edit</a>
+        <form action="/user/<%= foundUser._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
+        <% } %>
+    </div>
+    <% } else { %>
+    <h1>No founded User</h1>
+    <% } %>
+</div>
+
+<% include ../partials/footer %>

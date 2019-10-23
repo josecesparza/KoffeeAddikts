@@ -5,6 +5,8 @@ var Comment = require('./models/comment');
 
 var newUser = new User({
     username: "test",
+    name: "Testy Test",
+    email: "test@gmail.com",
     isBusiness: true
 });
 

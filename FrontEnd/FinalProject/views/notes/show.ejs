@@ -27,7 +27,7 @@
     </div>
 
     <div class="info-item comments" style="height: 100%; position: relative; margin: 15% 0;">
-        <p><%= note.author.username %></p>
+        <p><a href="/user/<%= note.author.id %>"><%= note.author.username %></a></p>
 
         <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
         <a href="/notes/<%= note._id %>/edit">Edit</a>
@@ -40,9 +40,10 @@
 
         <% note.comments.forEach(function(comment){ %>
         <p>
-            <strong><%= comment.author.username %></strong> - <%= comment.text %>
+            <strong><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a></strong> -
+            <%= comment.text %>
             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">EditC</a>
+            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">EditComment</a>
             <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
                 method="POST">
                 <input type="submit" value="Delete">

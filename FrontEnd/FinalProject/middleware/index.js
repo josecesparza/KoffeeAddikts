@@ -44,6 +44,26 @@ middlewareObj.checkCommentOwnership = function checkCommentOwnership(req, res, n
     }
 };
 
+middlewareObj.checkUserOwnership = function checkUserOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        User.findById(req.params.id, function (err, foundUser) {
+            if (err || !foundUser) {
+                req.flash("error", "Sorry, that user doesn't exist!");
+                res.redirect("back");
+            } else {
+                //Does the current user own the user?
+                if (foundUser._id.equals(req.user._id) || req.user.isAdmin) {
+                    next();
+                } else {
+                    res.redirect("/notes");
+                }
+            }
+        });
+    } else {
+        res.redirect("/notes");
+    }
+};
+
 middlewareObj.isLoggedIn = function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

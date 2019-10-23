@@ -51,7 +51,7 @@
 
     <div class="searcher">
         <form action="/notes" method="GET" autocomplete="off">
-            <input id="search-input" type="text" name="search" placeholder="text to search">
+            <input id="search-input" type="text" name ="search" placeholder="text to search">
             <input id="searchB" type="submit" value="Search">
         </form>
     </div>
@@ -64,6 +64,6 @@
     <li class="nav-right" style="padding-top: 10px"><a href="/user/logout">
             <img src="/svg/power-off.svg" width="24px">
         </a></li>
-    <li class="nav-right"><a class="navbar-item navbar-text" href="#">Hi <%= currentUser.username  %>!</a></li>
+    <li class="nav-right"><a class="navbar-item navbar-text" href="/user/<%= currentUser._id %>">Hi <%= currentUser.username  %>!</a></li>
     <% } %>
 </ul>
