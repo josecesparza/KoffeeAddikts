@@ -24,4 +24,8 @@
     <% } %>
 </div>
 
+<form action="/user/<%= foundUser._id %>/follow-user" method="post">
+    <input type="submit" value="Follow">
+</form>
+
 <% include ../partials/footer %>

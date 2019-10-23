@@ -26,7 +26,7 @@ router.get("/", function (req, res) {
 });
 
 //NEW - Show form to create a new note
-router.get("/new", middleware.isBusiness, function (req, res) {
+router.get("/new", middlewareObj.isBusiness, function (req, res) {
     res.render("notes/new")
 });
 
@@ -44,7 +44,7 @@ router.get("/:id", function (req, res) {
 });
 
 //EDIT - Show form to edit the note
-router.get("/:id/edit", middleware.checkNoteOwnership, function (req, res) {
+router.get("/:id/edit", middlewareObj.checkNoteOwnership, function (req, res) {
     Note.findById(req.params.id, function (err, foundNote) {
         if (err) {
             console.log(err);
@@ -56,7 +56,7 @@ router.get("/:id/edit", middleware.checkNoteOwnership, function (req, res) {
 });
 
 //UPDATE - Update the edited note in the DB
-router.put("/:id", middleware.checkNoteOwnership, function (req, res) {
+router.put("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
     Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
         if (err) {
             console.log(err);
@@ -67,7 +67,7 @@ router.put("/:id", middleware.checkNoteOwnership, function (req, res) {
 });
 
 //DESTROY ROUTE
-router.delete("/:id", middleware.checkNoteOwnership, function (req, res) {
+router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
     Note.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
             console.log(err);
@@ -78,7 +78,7 @@ router.delete("/:id", middleware.checkNoteOwnership, function (req, res) {
 });
 
 //CREATE - Add new note to the DB
-router.post("/new", middleware.isBusiness, function (req, res) {
+router.post("/new", middlewareObj.isBusiness, function (req, res) {
     var note = req.body.note;
     var author = {
         id: req.user._id,
