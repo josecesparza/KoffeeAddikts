@@ -19,13 +19,9 @@
         </form>
         <% } %>
     </div>
-    <% } else { %>
-    <h1>No founded User</h1>
-    <% } %>
+    <form action="/user/<%= foundUser._id %>/follow-user" method="post">
+        <input type="submit" value="Follow">
+    </form>
 </div>
-
-<form action="/user/<%= foundUser._id %>/follow-user" method="post">
-    <input type="submit" value="Follow">
-</form>
 
 <% include ../partials/footer %>

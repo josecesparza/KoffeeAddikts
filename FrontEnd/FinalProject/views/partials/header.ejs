@@ -10,3 +10,16 @@
 </head>
 
 <body>
+    <% if(error && error.length > 0){ %>
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <%= error %>
+    </div>
+    <% } %>
+
+    <% if(success && success.length > 0){ %>
+    <div class="alert success">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <%= success %>
+    </div>
+    <% } %>

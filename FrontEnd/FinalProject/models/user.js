@@ -26,7 +26,11 @@ var UserSchema = new mongoose.Schema({
                 ref: "User"
             },
         }
-    ]
+    ],
+    created: {
+        type: Date,
+        default: Date.now()
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);
