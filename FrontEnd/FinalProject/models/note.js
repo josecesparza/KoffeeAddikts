@@ -24,7 +24,12 @@ var noteSchema = new mongoose.Schema({
     created: {
         type: Date,
         default: Date.now()
-    }
+    },
+    price: String,
+    public: {
+        type: Boolean,
+        default: false
+    },
 });
 
 module.exports = mongoose.model("Note", noteSchema);

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
+var Note = require('../models/note');
 
 //Show register form
 router.get("/register", function (req, res) {
@@ -54,11 +55,18 @@ router.get("/logout", function (req, res) {
 //SHOW ROUTE
 router.get("/:id", function (req, res) {
     User.findById(req.params.id, function (err, foundUser) {
+        // var us = req.params.id;
         if (err) {
             console.log(err);
             req.flash("error", "This user doesn't exist");
         } else {
-            res.render('../views/users/show', { foundUser: foundUser });
+            Note.find({ "author.id": req.params.id }, function (err, authorNotes) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render('../views/users/show', { foundUser: foundUser, notes: authorNotes });
+                }
+            });
         }
     });
 });
@@ -111,7 +119,7 @@ router.post("/:id/follow-user", middlewareObj.isLoggedIn, function (req, res) {
         return;
         // return res.status(400).json({ alreadyfollow: "You cannot follow yourself" })
     }
-    
+
     User.findById(req.params.id)
         .then(user => {
             // check if the requested user is already in follower list of other user then 
@@ -125,7 +133,7 @@ router.post("/:id/follow-user", middlewareObj.isLoggedIn, function (req, res) {
             user.save()
             User.findOne({ email: req.user.email })
                 .then(user => {
-                   
+
                     user.following.unshift({ user: req.params.id });
                     user.save().then(user => {
                         req.flash("success", "Following!");

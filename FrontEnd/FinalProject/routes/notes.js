@@ -7,7 +7,7 @@ var middleware = require('../middleware/index');
 router.get("/", function (req, res) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Note.find({ name: regex }, function (err, regexNotes) {
+        Note.find({ name: regex, "public": true }, function (err, regexNotes) {
             if (err) {
                 console.log(err);
             } else {
@@ -15,7 +15,7 @@ router.get("/", function (req, res) {
             }
         });
     } else {
-        Note.find({}, function (err, allNotes) {
+        Note.find({ "public": true}, function (err, allNotes) {
             if (err) {
                 console.log(err);
             } else {
@@ -57,6 +57,12 @@ router.get("/:id/edit", middlewareObj.checkNoteOwnership, function (req, res) {
 
 //UPDATE - Update the edited note in the DB
 router.put("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
+    if (req.body.note.public == "on") {
+        req.body.note.public = true;
+    } else {
+        req.body.note.public = false;
+    }
+
     Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
         if (err) {
             console.log(err);
@@ -91,6 +97,10 @@ router.post("/new", middlewareObj.isBusiness, function (req, res) {
     }
 
     var newNote = { name: note.name, content: note.content, author: author, location: location };
+
+    if (note.public == "on") {
+        newNote.public = true;
+    }
 
     Note.create(newNote, function (err, newlyNote) {
         if (err) {

@@ -1,15 +1,86 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
 
+<style>
+    .box {
+        /* width: 1200px; */
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-gap: 15px;
+        margin: 0 auto;
+    }
+
+    .card {
+        position: relative;
+        width: 300px;
+        height: 350px;
+        background: #fff;
+        margin: 0 auto;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+    }
+
+
+    .card .imgBx {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        right: 10px;
+        background: #222;
+        transition: 0.5s;
+        z-index: 1;
+    }
+
+    .card:hover .imgBx {
+        bottom: 80px;
+    }
+
+    .card .imgBx img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .card .details {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        height: 60px;
+        text-align: center;
+    }
+
+    .card .details h2 {
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+        font-size: 20px;
+        color: #777;
+        text-transform: uppercase;
+    }
+
+    .card .details h2 span {
+        font-weight: 500;
+        font-size: 16px;
+        color: #f38695;
+        display: block;
+        margin-top: 5px;
+    }
+</style>
+
 <div class="container">
     <%  if(foundUser){ %>
-    <h1><%=  foundUser.username %>'s Profile</h1>
+    <h1><%= foundUser.username %>'s Profile</h1>
     <div>
-        <li>Username: <%=  foundUser.username %></li>
-        <li>Name: <%  if(foundUser.name){ %>
+        <li>Username: <%= foundUser.username %></li>
+        <li>Name: <% if(foundUser.name){ %>
             <%= foundUser.name %>
             <% } %></li>
-        <li style="margin-bottom: 0.5em">Surname: <%  if(foundUser.email){ %>
+        <li style="margin-bottom: 0.5em">email: <%  if(foundUser.email){ %>
             <%= foundUser.email %>
             <% } %></li>
         <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
@@ -19,9 +90,38 @@
         </form>
         <% } %>
     </div>
+    <% } %>
     <form action="/user/<%= foundUser._id %>/follow-user" method="post">
         <input type="submit" value="Follow">
     </form>
+    <% if(notes.length > 0) { %>
+    <div class="box">
+
+        <% notes.forEach(function(note) { %>
+            <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
+            <div class="card">
+                <div class="imgBx">
+                    <img src="/es1.png" alt="images">
+                </div>
+                <div class="details">
+                    <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
+                </div>
+            </div>
+            <% } else { %>
+                <% if(note.public == true) { %>
+            <div class="card">
+                <div class="imgBx">
+                    <img src="/es1.png" alt="images">
+                </div>
+                <div class="details">
+                    <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
+                </div>
+            </div>
+                <% } %>
+            <% } %>
+        <% }); %>
+    </div>
+    <% } %>
 </div>
 
 <% include ../partials/footer %>

@@ -11,9 +11,13 @@ var flash = require('connect-flash');
 var seedDB = require('./seeds');
 // seedDB();
 
+//Local DB
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true });
+
+//Mongo Atlas DB
+// mongoose.connect("mongodb+srv://developerjose:<password>@cluster0-uce7k.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
+
 app.use(express.static(__dirname + '/public'));
-app.use('/power', express.static(__dirname + "/public/power.svg"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());

@@ -17,7 +17,6 @@ var UserSchema = new mongoose.Schema({
                 ref: "User"
             },
         }
-
     ],
     followers: [
         {

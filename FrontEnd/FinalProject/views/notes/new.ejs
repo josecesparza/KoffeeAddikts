@@ -4,10 +4,14 @@
 <h1>Create a New Note</h1>
 
 <form action="/notes/new" method="POST">
-    <input type="text" name="note[name]" placeholder="name">
-    <input type="text" name="note[content]" placeholder="content">
-    <input type="text" name="note[lat]" placeholder="lat">
-    <input type="text" name="note[lng]" placeholder="lng">
+    <input type="text" name="note[name]" placeholder="name"><br>
+    <input type="text" name="note[content]" placeholder="content"><br>
+    <input type="text" name="note[lat]" placeholder="lat"><br>
+    <input type="text" name="note[lng]" placeholder="lng"><br>
+    <label for="public">Make this Koffee public:</label>
+    <input type="checkbox" name="note[public]" id="public"><br>
+    <!-- <label for="image">Choose a Koffee picture:</label>
+    <input type="file" id="image" name="note[image]" accept="image/png, image/jpeg"><br> -->
     <button>Submit!</button>
 </form>
 
