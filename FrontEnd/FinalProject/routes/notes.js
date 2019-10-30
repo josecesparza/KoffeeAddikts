@@ -66,7 +66,9 @@ router.put("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
     Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
         if (err) {
             console.log(err);
+            req.flash("error", "Something went wrong!");
         } else {
+            req.flash("success", "Koffee updated successfully");
             res.redirect("/notes/" + req.params.id);
         }
     });
@@ -78,6 +80,7 @@ router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
         if (err) {
             console.log(err);
         } else {
+            req.flash("success", "Koffee deleted successfully");
             res.redirect("/notes");
         }
     });
@@ -107,7 +110,7 @@ router.post("/new", middlewareObj.isBusiness, function (req, res) {
             console.log(err);
         } else {
             //redirect back to notes page
-            console.log(newlyNote);
+            req.flash("success", newNote.name + " created successfully");
             res.redirect("/notes");
         }
     });

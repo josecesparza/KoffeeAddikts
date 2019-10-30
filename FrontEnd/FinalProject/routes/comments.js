@@ -22,12 +22,14 @@ router.post("/", middlewareObj.isLoggedIn,function (req, res) {
     Note.findById(req.params.id, function (err, note) {
         if (err) {
             console.log(err);
+            req.flash("error", "Something went wrong!");
             res.redirect("/notes");
         } else {
             //Create new comment
             Comment.create(req.body.comment, function (err, comment) {
                 if (err) {
                     console.log(err);
+                    req.flash("error", "Something went wrong!");
                     res.redirect("/notes");
                 } else {
                     //Add username and id to comment
@@ -40,6 +42,7 @@ router.post("/", middlewareObj.isLoggedIn,function (req, res) {
                     note.comments.push(comment);
                     note.save();
 
+                    req.flash("success", "Comment created successfully");
                     //Redirect to campground show page
                     res.redirect("/notes/" + note._id);
                 }
@@ -65,8 +68,10 @@ router.get("/:comment_id/edit",  middlewareObj.checkCommentOwnership, function (
 router.put("/:comment_id", middlewareObj.checkCommentOwnership, function (req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
+            req.flash("error", "Something went wrong!");
             res.redirect("back");
         } else {
+            req.flash("success", "Comment updated successfully");
             res.redirect("/notes/" + req.params.id);
         }
     });
@@ -76,8 +81,10 @@ router.put("/:comment_id", middlewareObj.checkCommentOwnership, function (req, r
 router.delete("/:comment_id", middlewareObj.checkCommentOwnership, function (req, res) {
     Comment.findByIdAndRemove(req.params.comment_id, function (err) {
         if (err) {
+            req.flash("error", "Something went wrong!");
             res.redirect("back");
         } else {
+            req.flash("success", "Comment deleted successfully");
             res.redirect("/notes/" + req.params.id);
         }
     });
