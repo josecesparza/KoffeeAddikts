@@ -2,10 +2,8 @@ var express = require('express');
 var router = express.Router({ mergeParams: true }); //Merge params from the notes and comments together
 var Note = require('../models/note');
 var Comment = require('../models/comment');
-var middleware = require('../middleware/index');
 
-
-router.get("/new", middlewareObj.isLoggedIn,function (req, res) {
+router.get("/new", middlewareObj.isLoggedIn, function (req, res) {
     Note.findById(req.params.id, function (err, note) {
         if (err) {
             console.log(err);
@@ -17,7 +15,7 @@ router.get("/new", middlewareObj.isLoggedIn,function (req, res) {
     });
 });
 
-router.post("/", middlewareObj.isLoggedIn,function (req, res) {
+router.post("/", middlewareObj.isLoggedIn, function (req, res) {
     //Lookup note using ID
     Note.findById(req.params.id, function (err, note) {
         if (err) {
@@ -37,7 +35,7 @@ router.post("/", middlewareObj.isLoggedIn,function (req, res) {
                     comment.author.username = req.user.username;
                     //Save comment
                     comment.save();
-                    
+
                     //Connect new comment to campground
                     note.comments.push(comment);
                     note.save();
@@ -52,7 +50,7 @@ router.post("/", middlewareObj.isLoggedIn,function (req, res) {
 });
 
 //EDIT ROUTE
-router.get("/:comment_id/edit",  middlewareObj.checkCommentOwnership, function (req, res) {
+router.get("/:comment_id/edit", middlewareObj.checkCommentOwnership, function (req, res) {
     Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
             res.redirect("back");
