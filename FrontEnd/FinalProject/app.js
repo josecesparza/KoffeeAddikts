@@ -55,12 +55,10 @@ app.get("/", function (req, res) {
     res.render("index");
 });
 
-
 app.use("/user", usersRoutes);
 app.use("/notes", coffeesRoutes);
 app.use("/notes/:id/comments", commentRoutes);
 app.use("/contact", contactRoutes);
-
 
 app.listen(3000, process.env.IP, function () {
     console.log("Server has started!");

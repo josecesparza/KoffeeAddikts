@@ -7,7 +7,7 @@ var middleware = require('../middleware/index');
 router.get("/", function (req, res) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Note.find({ name: regex, "public": true }, function (err, regexNotes) {
+        Note.find({ $or:[ { name: regex }, { kind: regex }], "public": true }, function (err, regexNotes) {
             if (err) {
                 console.log(err);
             } else {
@@ -99,7 +99,7 @@ router.post("/new", middlewareObj.isBusiness, function (req, res) {
         lng: note.lng
     }
 
-    var newNote = { name: note.name, content: note.content, author: author, location: location };
+    var newNote = { name: note.name, content: note.content, author: author, location: location, kind: note.kind };
 
     if (note.public == "on") {
         newNote.public = true;
@@ -116,6 +116,7 @@ router.post("/new", middlewareObj.isBusiness, function (req, res) {
     });
 
 });
+
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
