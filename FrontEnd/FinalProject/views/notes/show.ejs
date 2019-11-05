@@ -1,6 +1,69 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
 
+<style>
+    #respond {
+        margin-top: 40px;
+    }
+
+    #respond input[type='text'],
+    #respond textarea {
+        margin-bottom: 10px;
+        display: block;
+        width: 100%;
+
+        background: black;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -o-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+
+        line-height: 1.4em;
+    }
+
+
+    .tip {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        background: transparent;
+        border: 10px solid #ccc;
+    }
+
+    .tip-up {
+        top: -22px;
+        /* Same as body margin top + border */
+        left: 10px;
+        border-right-color: transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+    }
+
+    .dialogbox .body {
+        position: relative;
+        max-width: 50%;
+        height: auto;
+        margin: 20px 0;
+        padding: 5px;
+        background-color: #000000;
+        border-radius: 3px;
+        border-top: 2px solid #ccc;
+    }
+
+    .body .message {
+        min-height: 30px;
+        border-radius: 3px;
+        font-family: Arial;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #797979;
+    }
+</style>
+
 <div class="container">
     <div id="info" class="wrapper">
         <div class="wrapper" style="height: 50%;">
@@ -21,41 +84,77 @@
             </div>
             <div class="info-item aside right-info">
                 <h1><%= note.kind %></h1>
+                <p><a href="/user/<%= note.author.id %>"><%= note.author.username %></a></p>
+
+                <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
+                <a href="/notes/<%= note._id %>/edit">Edit</a>
+
+                <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+                <% } %>
             </div>
         </div>
 
     </div>
 
-    <div class="info-item comments" style="height: 100%; position: relative; margin: 15% 0;">
-        <p><a href="/user/<%= note.author.id %>"><%= note.author.username %></a></p>
-
-        <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
-        <a href="/notes/<%= note._id %>/edit">Edit</a>
-
-        <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-        <% } %>
-        <a href="/notes/<%= note._id %>/comments/new">Add Comment</a>
-
-        <% note.comments.forEach(function(comment){ %>
-        <p>
-            <strong><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a></strong> -
-            <%= comment.text %>
-            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">EditComment</a>
-            <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
-                method="POST">
-                <input type="submit" value="Delete">
-            </form>
+    <div class="info-item comments" style="height: 100%; position: relative; margin: 7% 0;">
+        <div id="respond">
+            <% if(currentUser){ %>
+            <button onclick="myFunction()">Leave a Comment</button>
+            <% } else {%>
+            <a href="/user/login"><button>Leave a Comment</button></a>
             <% } %>
-        </p>
-        <% }); %>
+
+            <% if(currentUser){ %>
+            <form style="display: none;" action="/notes/<%= note._id %>/comments" method="POST" id="commentform">
+
+                <label for="comment_author" class="required">Your name</label>
+                <input type="text" name="comment_author" id="comment_author" value="<%= currentUser.username %>"
+                    readonly>
+
+                <label for="comment" class="required">Your message</label>
+                <input type="text" name="comment[text]" id="comment" rows="10" tabindex="4" required placeholder="text">
+                <!-- <textarea name="comment" id="comment" rows="10" tabindex="4" required></textarea> -->
+
+                <input name="submit" type="submit" value="Submit comment" />
+                <% } %>
+            </form>
+
+            <% note.comments.forEach(function(comment){ %>
+            <div class="">
+                <div class="dialogbox">
+                    <div class="body">
+                        <span class="tip tip-up"></span>
+                        <strong><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a></strong> -
+                        <%= comment.created.toDateString() %>
+                        <div class="message">
+                            <span><%= comment.text %></span>
+                        </div>
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit"><button>EditComment</button></a>
+                            <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                method="POST">
+                                <input type="submit" value="Delete">
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
     </div>
-
 </div>
-
 <script>
+    function myFunction() {
+        var x = document.getElementById('commentform');
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+        } else {
+            x.style.display = 'none';
+        }
+    }
+
     var map;
     function initMap() {
         var position = { lat: <%= note.location.lat %>, lng: <%= note.location.lng %> };
@@ -68,6 +167,7 @@
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMEK33apiDfGBs4sfltinmRJT3xnGAS6s&callback=initMap" async
-    defer></script>
+    defer>
+</script>
 
 <% include ../partials/footer %>
