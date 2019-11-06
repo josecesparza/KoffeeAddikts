@@ -40,7 +40,8 @@ function seedDB() {
                                 lat: "39.2801",
                                 lng: "-0.2238"
                             },
-                            price: "2.5"
+                            price: "2.5",
+                            public: true
                         },
                         {
                             name: "LatteK",
@@ -54,7 +55,8 @@ function seedDB() {
                                 lat: "38.8218912",
                                 lng: "-0.606323"
                             },
-                            price: "2.05"
+                            price: "2.05",
+                            public: true
                         },
                         {
                             name: "EspressoK",
@@ -68,7 +70,8 @@ function seedDB() {
                                 lat: "38.8218912",
                                 lng: "-0.606323"
                             },
-                            price: "2.25"
+                            price: "2.25",
+                            public: false
                         }
                     ];
 

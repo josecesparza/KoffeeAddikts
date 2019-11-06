@@ -50,6 +50,7 @@ var coffeesRoutes = require('./routes/notes');
 var usersRoutes = require('./routes/users');
 var commentRoutes = require('./routes/comments');
 var contactRoutes = require('./routes/contact');
+var apiRoutes = require('./routes/api');
 
 app.get("/", function (req, res) {
     res.render("index");
@@ -59,6 +60,7 @@ app.use("/user", usersRoutes);
 app.use("/notes", coffeesRoutes);
 app.use("/notes/:id/comments", commentRoutes);
 app.use("/contact", contactRoutes);
+app.use("/api", apiRoutes);
 
 app.listen(3000, process.env.IP, function () {
     console.log("Server has started!");
