@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Note = require('../models/note');
-var middleware = require('../middleware/index');
+var middlewareObj = require('../middleware/index');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
