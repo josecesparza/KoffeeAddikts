@@ -1,7 +1,11 @@
+//Require the needed packages
 var express = require('express');
-var router = express.Router({ mergeParams: true }); //Merge params from the notes and comments together
+//Merge params from the notes and comments together
+var router = express.Router({ mergeParams: true });
+//Require note and comment model to do the queries in the database
 var Note = require('../models/note');
 var Comment = require('../models/comment');
+
 
 router.get("/new", middlewareObj.isLoggedIn, function (req, res) {
     Note.findById(req.params.id, function (err, note) {

@@ -1,12 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Koffee Addikts API</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 </head>
+<style>
+    table td,
+    th {
+        border: 1px black solid;
+    }
+</style>
+
 <body>
     <h1>REST API Documentation</h1>
-</body>
-</html>
+
+    <h2>Intro</h2>
+    <p>Koffee Addikts has this free online REST API that you can use to get our public data and use it for external
+        proposes</p>
+
+    <h2>Routes</h2>
+    <table>
+        <tr>
+            <th>Method</th>
+            <th>Route</th>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/note</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/note/note_id</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/comment</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/comment/comment_id</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/user</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/user/user_id</td>
+        </tr>
+    </table>
+
+    <h2>Example</h2>
+    <a href="note">Get all the public notes</a>
+
+    <h2>More info:</h2>
+    <ul>
+        <li>This API is free to use</li>
+        <li>You don't need to be logged in or to have an account</li>
+        <li>Currently it's in a developing process to be ablo to use all the HTTP methods(POST, PUT, DELETE)</li>
+        <li>You are going to get the requested date in JSON format</li>
+        <li>If you experiment any error you can contact us by our web on the "Contact Us" tab</li>
+    </ul>
+
+<% include ./partials/footer %>
