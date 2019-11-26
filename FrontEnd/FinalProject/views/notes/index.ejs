@@ -2,9 +2,10 @@
     html {
         scroll-behavior: smooth;
     }
-    .card{
-            backdrop-filter: blur(10px);  
-        }
+
+    .card {
+        backdrop-filter: blur(10px);
+    }
 </style>
 
 <% include ../partials/header %>
@@ -18,18 +19,18 @@
 <div id="coffees">
     <div class="box">
         <% if(notes){ %>
-            <% notes.forEach(function(note){ %>
-                <a href="/notes/<%= note._id %>">
-                    <div class="card">
-                        <div class="imgBx">
-                            <img src="/es1.png" alt="images">
-                        </div>
-                        <div class="details">
-                            <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
-                        </div>
-                    </div>
-                </a>
-            <% }) %>
+        <% notes.forEach(function(note){ %>
+        <a href="/notes/<%= note._id %>">
+            <div class="card">
+                <div class="imgBx">
+                    <img src="/es1.png" alt="images">
+                </div>
+                <div class="details">
+                    <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
+                </div>
+            </div>
+        </a>
+        <% }) %>
         <% } %>
     </div>
 </div>

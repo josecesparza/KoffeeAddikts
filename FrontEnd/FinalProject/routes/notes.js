@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var Note = require('../models/note');
+var User = require('../models/user');
+
 var middlewareObj = require('../middleware/index');
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Note.find({ $or:[ { name: regex }, { kind: regex }], "public": true }, function (err, regexNotes) {
+        Note.find({ $or: [{ name: regex }, { kind: regex }], "public": true }, function (err, regexNotes) {
             if (err) {
                 console.log(err);
             } else {
@@ -15,7 +17,7 @@ router.get("/", function (req, res) {
             }
         });
     } else {
-        Note.find({ "public": true}, function (err, allNotes) {
+        Note.find({ "public": true }, function (err, allNotes) {
             if (err) {
                 console.log(err);
             } else {
@@ -56,22 +58,36 @@ router.get("/:id/edit", middlewareObj.checkNoteOwnership, function (req, res) {
 });
 
 //UPDATE - Update the edited note in the DB
-router.put("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
+router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
     if (req.body.note.public == "on") {
         req.body.note.public = true;
     } else {
         req.body.note.public = false;
     }
 
-    Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
-        if (err) {
-            console.log(err);
-            req.flash("error", "Something went wrong!");
-        } else {
-            req.flash("success", "Koffee updated successfully");
-            res.redirect("/notes/" + req.params.id);
-        }
-    });
+    const session = await User.startSession();
+    session.startTransaction();
+    try {
+        Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
+            if (err) {
+                console.log(err);
+                req.flash("error", "Something went wrong!");
+            } else {
+                req.flash("success", "Koffee updated successfully");
+                res.redirect("/notes/" + req.params.id);
+            }
+        });
+
+        await session.commitTransaction();
+        session.endSession();
+        return true;
+    } catch(error){
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+    }
+
+
 });
 
 //DESTROY ROUTE

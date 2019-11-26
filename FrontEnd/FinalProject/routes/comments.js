@@ -5,18 +5,29 @@ var router = express.Router({ mergeParams: true });
 //Require note and comment model to do the queries in the database
 var Note = require('../models/note');
 var Comment = require('../models/comment');
+var User = require('../models/user');
 
-
-router.get("/new", middlewareObj.isLoggedIn, function (req, res) {
-    Note.findById(req.params.id, function (err, note) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(note);
-            //Render new comment template for that campground
-            res.render("comments/new", { note: note });
-        }
-    });
+router.get("/new", middlewareObj.isLoggedIn, async function (req, res) {
+    const session = await User.startSession();
+    session.startTransaction();
+    try {
+        Note.findById(req.params.id, function (err, note) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(note);
+                //Render new comment template for that campground
+                res.render("comments/new", { note: note });
+            }
+        });
+        await session.commitTransaction();
+        session.endSession();
+        return true;
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+    }
 });
 
 router.post("/", middlewareObj.isLoggedIn, function (req, res) {
