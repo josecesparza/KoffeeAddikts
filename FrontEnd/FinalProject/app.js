@@ -74,3 +74,18 @@ app.use("/api", apiRoutes);
 app.listen(3000, process.env.IP, function () {
     console.log("Server has started!");
 });
+
+// HTTPS SERVER
+// You may see some SSL warning. 
+// That’s because your certificate ain’t issued by any verified organization.
+// What you want to do is, add the cert as an exception to your browser.
+
+// const https = require('https');
+// const fs = require('fs');
+
+// const options = {
+//   key: fs.readFileSync('key.pem'),
+//   cert: fs.readFileSync('cert.pem')
+// };
+
+// https.createServer(options, app).listen(8000);
