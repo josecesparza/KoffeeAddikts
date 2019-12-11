@@ -1,18 +1,43 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
 
-<h1>Edit Note</h1>
+<div class="container">
+    <h1>Edit Note</h1>
 
-<form action="/notes/<%= note._id %>?_method=PUT" method="POST">
-    <input type="text" name="note[name]" value="<%= note.name %>">
-    <input type="text" name="note[content]" value="<%= note.content %>">
-    <label for="public">Make this Koffee public:</label>
-    <% if(note.public){ %>
-        <input type="checkbox" name="note[public]" id="public" checked><br>
-    <% } else{ %>
-        <input type="checkbox" name="note[public]" id="public"><br>
-    <% } %>
-    <button>Submit!</button>
-</form>
+    <form action="/notes/<%= note._id %>?_method=PUT" method="POST">
+        <div class="flexbox">
+            <input type="text" name="note[name]" value="<%= note.name %>" required>
+            <input type="text" name="note[kind]" value="<%= note.kind %>" required>
+        </div>
 
-<% include ../partials/footer %> 
+        <div class="flexbox">
+            <textarea name="note[content]" id="" placeholder="content" cols="30" rows="10"
+                required><%= note.content %></textarea>
+        </div>
+
+        <div class="flexbox">
+            <label for="coordinates">Where can we find your coffee?</label>
+        </div>
+
+        <div class="flexbox" id="coordinates">
+            <input type="text" name="note[location.lat]" value="<%= note.location.lat %>">
+            <input type="text" name="note[location.lng]" value="<%= note.location.lng %>">
+        </div>
+
+        <div class="flexbox">
+            <label for="public">Make this Koffee public:</label>
+            <% if(note.public){ %>
+            <input type="checkbox" name="note[public]" id="public" checked><br>
+            <% } else{ %>
+            <input type="checkbox" name="note[public]" id="public"><br>
+            <% } %>
+        </div>
+
+        <div class="flexbox">
+            <button>Submit!</button>
+        </div>
+    </form>
+
+</div>
+
+<% include ../partials/footer %>
