@@ -4,14 +4,32 @@
 <div class="container">
     <h1>Create a New Note</h1>
     <form action="/notes/new" method="POST">
-        <input type="text" name="note[name]" placeholder="name"><br>
-        <input type="text" name="note[content]" placeholder="content"><br>
-        <input type="text" name="note[kind]" placeholder="kind"><br>
-        <input type="text" name="note[lat]" placeholder="lat"><br>
-        <input type="text" name="note[lng]" placeholder="lng"><br>
-        <label for="public">Make this Koffee public:</label>
-        <input type="checkbox" name="note[public]" id="public"><br>
-        <button>Submit!</button>
+        <div class="flexbox">
+            <input type="text" name="note[name]" placeholder="name" required>
+            <input type="text" name="note[kind]" placeholder="kind of coffee" required>
+        </div>
+
+        <!-- <input type="text" name="note[content]" placeholder="content"> -->
+        <div class="flexbox">
+            <textarea name="note[content]" id="" placeholder="content" cols="30" rows="10" required></textarea>
+        </div>
+
+        <div class="flexbox">
+            <label for="coordinates">Where can we find your coffee?</label>
+        </div>
+        <div class="flexbox" id="coordinates">
+            <input type="text" name="note[lat]" placeholder="latitude">
+            <input type="text" name="note[lng]" placeholder="longitude">
+        </div>
+
+        <div class="flexbox">
+            <label for="public">Make this Koffee public:</label>
+            <input type="checkbox" name="note[public]" id="public"><br>
+        </div>
+
+        <div class="flexbox">
+            <button>Submit!</button>
+        </div>
     </form>
 </div>
 <% include ../partials/footer %>
