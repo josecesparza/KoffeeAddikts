@@ -4,54 +4,95 @@
 <div class="container">
     <%  if(foundUser){ %>
     <h1><%= foundUser.username %>'s Profile</h1>
-    <div>
-        <li>Username: <%= foundUser.username %></li>
-        <li>Name: <% if(foundUser.name){ %>
-            <%= foundUser.name %>
-            <% } %></li>
-        <li style="margin-bottom: 0.5em">email: <%  if(foundUser.email){ %>
-            <%= foundUser.email %>
-            <% } %></li>
-        <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
-        <a href="/user/<%= foundUser._id %>/edit">Edit</a>
-        <form action="/user/<%= foundUser._id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
+
+    <div class="flexbox" style="margin-bottom: 50px;">
+        <% if(foundUser.isBusiness) { %>
+        <div class="profile-img">
+            <img src="/svg/briefcase-solid.svg" width="132px">
+        </div>
+        <% } else { %>
+        <div class="profile-img">
+            <img src="/svg/users-cog-solid.svg">
+        </div>
         <% } %>
+
+        <div class="profile-info">
+            <div id="profile-info-options">
+                <div class="profile-label">
+                    <label id="your-profile">Your Profile</label>
+                </div>
+                <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
+                <div id="edit-user" class="profile-label">
+                    <a href="/user/<%= foundUser._id %>/edit">Edit</a>
+                </div>
+                <div id="delete-user" class="profile-label">
+                    <form action="/user/<%= foundUser._id %>?_method=DELETE" method="POST">
+                        <button>Delete</button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
+
+            <div>
+                <ul id="user-info-list">
+                    <li>Username: <%= foundUser.username %></li>
+                    <li>Name: <% if(foundUser.name){ %>
+                        <%= foundUser.name %>
+                        <% } %></li>
+                    <li>email: <%  if(foundUser.email){ %>
+                        <%= foundUser.email %>
+                        <% } %>
+                    </li>
+                    <li>
+                        Created since: <%= foundUser.created.toDateString() %>
+                    </li>
+                    <li>
+                        Followers: <%= foundUser.followers.length %>
+                    </li>
+                    <li>
+                        Following: <%= foundUser.following.length %>
+                    </li>
+                </ul>
+            </div>
+            <% } %>
+
+            <% if(currentUser && !currentUser._id.equals(foundUser._id)){ %>
+            <form action="/user/<%= foundUser._id %>/follow-user" method="post">
+                <input type="submit" value="Follow">
+            </form>
+            <% } %>
+        </div>
     </div>
-    <% } %>
-    <form action="/user/<%= foundUser._id %>/follow-user" method="post">
-        <input type="submit" value="Follow">
-    </form>
+
     <% if(notes.length > 0) { %>
     <div class="box">
 
         <% notes.forEach(function(note) { %>
-            <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
-            <a href="/notes/<%= note._id %>">
-                <div class="card">
-                    <div class="imgBx">
-                        <img src="/es1.png" alt="images">
-                    </div>
-                    <div class="details">
-                        <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
-                    </div>
+        <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
+        <a href="/notes/<%= note._id %>">
+            <div class="card">
+                <div class="imgBx">
+                    <img src="/es1.png" alt="images">
                 </div>
-            </a>
-            <% } else { %>
-                <% if(note.public == true) { %>
-                <a href="/notes/<%= note._id %>">
-                <div class="card">
-                    <div class="imgBx">
-                        <img src="/es1.png" alt="images">
-                    </div>
-                    <div class="details">
-                        <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
-                    </div>
+                <div class="details">
+                    <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
                 </div>
-                </a>
-                <% } %>
-            <% } %>
+            </div>
+        </a>
+        <% } else { %>
+        <% if(note.public == true) { %>
+        <a href="/notes/<%= note._id %>">
+            <div class="card">
+                <div class="imgBx">
+                    <img src="/es1.png" alt="images">
+                </div>
+                <div class="details">
+                    <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
+                </div>
+            </div>
+        </a>
+        <% } %>
+        <% } %>
         <% }); %>
     </div>
     <% } %>
