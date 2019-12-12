@@ -121,7 +121,8 @@ a {
     background-size: cover;
     background-repeat: no-repeat;
     padding: 0 2%;
-    height: 100%;
+    height: fit-content;
+    margin-bottom: 1.5em;
 }
 
 @media all and (min-width: 900px) {
@@ -131,6 +132,7 @@ a {
         margin: 0 2%;
         text-align: right;
         width: 55%;
+        text-shadow: 3px 2px #121212;
     }
 }
 
@@ -255,9 +257,8 @@ a {
 /* CARD COFFEES */
 
 .box {
-    /* width: 1200px; */
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 15px;
     margin: 0 auto;
 }
