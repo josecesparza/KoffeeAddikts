@@ -9,12 +9,6 @@ var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 var flash = require('connect-flash');
 
-var crypto = require('crypto');
-var path = require('path');
-var multer = require('multer');
-var GridFsStorage = require('multer-gridfs-storage');
-var Grid = require('gridfs-stream');
-
 //Require our seed file, we are just going to use it when we want to seed or clean the database
 var seedDB = require('./seeds');
 // seedDB();
@@ -75,57 +69,6 @@ app.use("/notes", coffeesRoutes);
 app.use("/notes/:id/comments", commentRoutes);
 app.use("/contact", contactRoutes);
 app.use("/api", apiRoutes);
-
-
-
-
-
-
-
-// MULTER
-//Init gfs
-let gfs;
-
-var conn = mongoose.createConnection('mongodb://localhost:27017/notes_app_test');
-conn.once('open', function () {
-    // Init Stream
-    gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploads');
-})
-
-//Create storage engine
-var storage = new GridFsStorage({
-    url: 'mongodb://host:27017/notes_app_test',
-    file: (req, file) => {
-      return new Promise((resolve, reject) => {
-        crypto.randomBytes(16, (err, buf) => {
-          if (err) {
-            return reject(err);
-          }
-          const filename = buf.toString('hex') + path.extname(file.originalname);
-          const fileInfo = {
-            filename: filename,
-            bucketName: 'uploads'
-          };
-          resolve(fileInfo);
-        });
-      });
-    }
-  });
-  const upload = multer({ storage });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Start the server in the port 3000 in our localhost
 const port = 3000;

@@ -2,9 +2,8 @@
 <% include ../partials/navbar %>
 
 <style>
-
-     /*New Comment*/
-     .leave-comment {
+    /*New Comment*/
+    .leave-comment {
         flex: 1;
         background: #6F4E37;
         border: none;
@@ -116,7 +115,7 @@
         display: contents;
     }
 
-    .edit-comment {
+    .edit {
         background-color: #2f2f69;
         color: #fff;
         border: none;
@@ -124,7 +123,7 @@
         border-radius: 3px;
     }
 
-    .delete-comment {
+    .delete {
         background-color: #a0271f;
         color: #fff;
         border: none;
@@ -132,96 +131,96 @@
         border-radius: 3px;
     }
 
-   
+    #delete-coffee{
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 16px;
+        margin-bottom: 1em;
+    }
 </style>
 
 <div class="container">
     <div id="info" class="wrapper">
-        <div class="wrapper" style="height: 50%;">
+        <div class="wrapper">
             <div class="info-item aside left-info">
                 <h1 id="koffee-title"><%= note.name %></h1>
                 <p><%= note.content %></p>
-            </div>
-            <div class="info-item aside info-img">
-                <img height="auto" src="/es1.png">
-            </div>
-        </div>
-
-        <div class="wrapper" style="height: 50%; ">
-            <div class="info-item aside info-location">
-
-                <% if(note.location.lat && note.location.lng){ %>
-                <div id="map"></div>
-                <% } else { %>
-                <div id="no-location">
-                    Location not available
-                </div>
-                <% } %>
-            </div>
-            <div class="info-item aside right-info">
                 <h1><%= note.kind %></h1>
                 <p><a href="/user/<%= note.author.id %>"><%= note.author.username %></a></p>
 
                 <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
-                <a href="/notes/<%= note._id %>/edit">Edit</a>
+                <a class="edit" href="/notes/<%= note._id %>/edit">Edit</a>
 
-                <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
-                    <button>Delete</button>
+                <form class="delete-form" action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+                    <input class="delete" id="delete-coffee" type="submit" value="Delete">
                 </form>
                 <% } %>
             </div>
+            <div class="info-item aside info-img">
+                <img  src="/image/<%= note.image %>">
+            </div>
         </div>
 
-    </div>
-
-    <div class="info-item comments" style="position: relative; margin-top: 15vh">
-        <div id="respond">
-            <% if(currentUser){ %>
-            <button class="leave-comment" onclick="newComment()">Leave a Comment</button>
-            <% } else {%>
-            <a href="/user/login"><button  class="leave-comment" >Leave a Comment</button></a>
-            <% } %>
-            <div id="new-comment-form">
+        <div class="info-item comments">
+            <div id="respond">
                 <% if(currentUser){ %>
-                <form style="display: none;" action="/notes/<%= note._id %>/comments" method="POST" id="commentform">
-                    <textarea name="comment[text]" id="comment" rows="10" tabindex="4"
-                        placeholder="Please, write your comment here" required></textarea>
-                    <input id="submit-comment" name="submit" type="submit" value="Submit comment" />
-                    <% } %>
-                </form>
-            </div>
-
-            <div id="comment-area">
-                <% if(note.comments.length > 0 && note.comments.length==1) { %>
-                    <h2>1 Response</h2>
-                <% } else if (note.comments.length > 0){ %>
-                    <h2><%= note.comments.length %> Responses</h2>
-                <% } %>    
-                <% note.comments.forEach(function(comment){ %>
-                <div class="dialogbox">
-                    <div class="body">
-                        <span class="tip tip-up"></span>
-                        <strong><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a></strong> -
-                        <%= comment.created.toDateString() %>
-                        <div class="message">
-                            <span><%= comment.text %></span>
-                        </div>
-                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-                        <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">
-                            <button class="edit-comment">Edit</button>
-                        </a>
-                        <form class="delete-form"
-                            action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                            <input class="delete-comment" type="submit" value="Delete">
-                        </form>
+                <button class="leave-comment" onclick="newComment()">Leave a Comment</button>
+                <% } else {%>
+                <a href="/user/login"><button class="leave-comment">Leave a Comment</button></a>
+                <% } %>
+                <div id="new-comment-form">
+                    <% if(currentUser){ %>
+                    <form style="display: none;" action="/notes/<%= note._id %>/comments" method="POST"
+                        id="commentform">
+                        <textarea name="comment[text]" id="comment" rows="10" tabindex="4"
+                            placeholder="Please, write your comment here" required></textarea>
+                        <input id="submit-comment" name="submit" type="submit" value="Submit comment" />
                         <% } %>
-                    </div>
+                    </form>
                 </div>
-                <% }); %>
+
+                <div id="comment-area">
+                    <% if(note.comments.length > 0 && note.comments.length==1) { %>
+                    <h2>1 Response</h2>
+                    <% } else if (note.comments.length > 0){ %>
+                    <h2><%= note.comments.length %> Responses</h2>
+                    <% } %>
+                    <% note.comments.forEach(function(comment){ %>
+                    <div class="dialogbox">
+                        <div class="body">
+                            <span class="tip tip-up"></span>
+                            <strong><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a></strong>
+                            -
+                            <%= comment.created.toDateString() %>
+                            <div class="message">
+                                <span><%= comment.text %></span>
+                            </div>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">
+                                <button class="edit">Edit</button>
+                            </a>
+                            <form class="delete-form"
+                                action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                method="POST">
+                                <input class="delete" type="submit" value="Delete">
+                            </form>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<% if(note.location.lat && note.location.lng){ %>
+<div id="map"></div>
+<% } else { %>
+<div id="no-location">
+    Location not available
+</div>
+<% } %>
+
 <script>
     function newComment() {
         var x = document.getElementById('commentform');

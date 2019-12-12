@@ -5,6 +5,54 @@ var User = require('../models/user');
 
 var middlewareObj = require('../middleware/index');
 
+var mongoose = require('mongoose');
+var crypto = require('crypto');
+var path = require('path');
+var multer = require('multer');
+var GridFsStorage = require('multer-gridfs-storage');
+var Grid = require('gridfs-stream');
+// DB
+const mongoURI = "mongodb://localhost:27017/notes_app";
+
+// connection
+const conn = mongoose.createConnection(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+// init gfs
+let gfs;
+conn.once("open", () => {
+    // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+        bucketName: "uploads"
+    });
+});
+
+// Storage
+const storage = new GridFsStorage({
+    url: mongoURI,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString("hex") + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: "uploads"
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+const upload = multer({
+    storage
+});
+
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
     if (req.query.search) {
@@ -92,6 +140,7 @@ router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
 
 //DESTROY ROUTE
 router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
+    
     Note.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
             console.log(err);
@@ -103,7 +152,8 @@ router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
 });
 
 //CREATE - Add new note to the DB
-router.post("/new", middlewareObj.isBusiness, function (req, res) {
+router.post("/new", upload.single("file"), function (req, res) {
+    
     var note = req.body.note;
     var author = {
         id: req.user._id,
@@ -115,7 +165,10 @@ router.post("/new", middlewareObj.isBusiness, function (req, res) {
         lng: note.lng
     }
 
-    var newNote = { name: note.name, content: note.content, author: author, location: location, kind: note.kind };
+    var imageName = req.file.filename;
+    console.log("imageName" + imageName);
+
+    var newNote = { name: note.name, content: note.content, author: author, location: location, kind: note.kind, image: imageName };
 
     if (note.public == "on") {
         newNote.public = true;

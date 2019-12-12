@@ -3,7 +3,7 @@
 
 <div class="container">
     <h1>Create a New Koffee</h1>
-    <form action="/notes/new" method="POST">
+    <form action="/notes/new" method="POST" enctype="multipart/form-data">
         <div class="flexbox">
             <input type="text" name="note[name]" placeholder="name" required>
             <input type="text" name="note[kind]" placeholder="kind of koffee" required>
@@ -24,6 +24,9 @@
         <div class="flexbox">
             <label for="public">Make this Koffee public:</label>
             <input type="checkbox" name="note[public]" id="public"><br>
+        </div>
+
+        <div class="flexbox">
             <label for="file">Choose Koffee Image:</label>
             <input type="file" name="file" id="file">
         </div>
@@ -33,4 +36,5 @@
         </div>
     </form>
 </div>
+
 <% include ../partials/footer %>

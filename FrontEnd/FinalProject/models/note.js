@@ -38,6 +38,7 @@ var noteSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    image: String
 });
 
 //Exports our noteSchema with Note as a reference
