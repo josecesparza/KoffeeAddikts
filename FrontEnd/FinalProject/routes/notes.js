@@ -151,6 +151,22 @@ router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
     });
 });
 
+router.get("/image/:filename", (req, res) => {
+    // console.log('id', req.params.id)
+    const file = gfs
+      .find({
+        filename: req.params.filename
+      })
+      .toArray((err, files) => {
+        if (!files || files.length === 0) {
+          return res.status(404).json({
+            err: "no files exist"
+          });
+        }
+        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+      });
+  });
+
 //CREATE - Add new note to the DB
 router.post("/new", upload.single("file"), function (req, res) {
     
