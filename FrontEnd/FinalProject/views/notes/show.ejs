@@ -2,8 +2,50 @@
 <% include ../partials/navbar %>
 
 <style>
+
+     /*New Comment*/
+     .leave-comment {
+        flex: 1;
+        background: #6F4E37;
+        border: none;
+        border-radius: 3px;
+        padding: .3em;
+        font-size: 1em;
+        width: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        outline: none;
+        color: #46D80E;
+    }
+
+    #new-comment-form {
+        border: 1px solid #46D80E;
+        border-top: 0;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    #submit-comment {
+        background: #48ff00;
+        border: none;
+        padding: .3em;
+        font-size: 1em;
+        width: 100%;
+        outline: none;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+
+    #comment {
+        border: 0 !important;
+        margin: 0 !important;
+        padding: 0;
+        outline: none;
+        resize: none;
+    }
+
     #respond {
-        margin-top: 40px;
+        margin-top: 30px;
     }
 
     #respond input[type='text'],
@@ -26,6 +68,7 @@
     }
 
 
+    /*Comment List*/
     .tip {
         width: 0px;
         height: 0px;
@@ -43,7 +86,12 @@
         border-top-color: transparent;
     }
 
+    #comment-area {
+        display: flexbox;
+    }
+
     .dialogbox .body {
+        flex: 1;
         position: relative;
         max-width: 50%;
         height: auto;
@@ -51,10 +99,10 @@
         padding: 5px;
         background-color: #121212;
         border-radius: 3px;
-        border-top: 2px solid #ccc;
+        border: 2px solid #ccc;
     }
 
-    .body .message {
+    .message {
         min-height: 30px;
         border-radius: 3px;
         font-family: Arial;
@@ -62,6 +110,28 @@
         line-height: 1.5;
         color: #797979;
     }
+
+    .delete-form {
+        display: contents;
+    }
+
+    .edit-comment {
+        background-color: #2f2f69;
+        color: #fff;
+        border: none;
+        padding: 0.3em;
+        border-radius: 3px;
+    }
+
+    .delete-comment {
+        background-color: #a0271f;
+        color: #fff;
+        border: none;
+        padding: 0.3em;
+        border-radius: 3px;
+    }
+
+   
 </style>
 
 <div class="container">
@@ -70,8 +140,6 @@
             <div class="info-item aside left-info">
                 <h1 id="koffee-title"><%= note.name %></h1>
                 <p><%= note.content %></p>
-                <p><%= note.location.lat %></p>
-                <p><%= note.location.lng %></p>
             </div>
             <div class="info-item aside info-img">
                 <img height="auto" src="/es1.png">
@@ -80,7 +148,14 @@
 
         <div class="wrapper" style="height: 50%; ">
             <div class="info-item aside info-location">
+
+                <% if(note.location.lat && note.location.lng){ %>
                 <div id="map"></div>
+                <% } else { %>
+                <div id="no-location">
+                    Location not available
+                </div>
+                <% } %>
             </div>
             <div class="info-item aside right-info">
                 <h1><%= note.kind %></h1>
@@ -98,31 +173,30 @@
 
     </div>
 
-    <div class="info-item comments" style="height: 100%; position: relative; margin: 7% 0;">
+    <div class="info-item comments" style="position: relative; margin-top: 15vh">
         <div id="respond">
             <% if(currentUser){ %>
-            <button onclick="myFunction()">Leave a Comment</button>
+            <button class="leave-comment" onclick="newComment()">Leave a Comment</button>
             <% } else {%>
-            <a href="/user/login"><button>Leave a Comment</button></a>
+            <a href="/user/login"><button  class="leave-comment" >Leave a Comment</button></a>
             <% } %>
+            <div id="new-comment-form">
+                <% if(currentUser){ %>
+                <form style="display: none;" action="/notes/<%= note._id %>/comments" method="POST" id="commentform">
+                    <textarea name="comment[text]" id="comment" rows="10" tabindex="4"
+                        placeholder="Please, write your comment here" required></textarea>
+                    <input id="submit-comment" name="submit" type="submit" value="Submit comment" />
+                    <% } %>
+                </form>
+            </div>
 
-            <% if(currentUser){ %>
-            <form style="display: none;" action="/notes/<%= note._id %>/comments" method="POST" id="commentform">
-
-                <label for="comment_author" class="required">Your name</label>
-                <input type="text" name="comment_author" id="comment_author" value="<%= currentUser.username %>"
-                    readonly>
-
-                <label for="comment" class="required">Your message</label>
-                <input type="text" name="comment[text]" id="comment" rows="10" tabindex="4" required placeholder="text">
-                <!-- <textarea name="comment" id="comment" rows="10" tabindex="4" required></textarea> -->
-
-                <input name="submit" type="submit" value="Submit comment" />
-                <% } %>
-            </form>
-
-            <% note.comments.forEach(function(comment){ %>
-            <div class="">
+            <div id="comment-area">
+                <% if(note.comments.length > 0 && note.comments.length==1) { %>
+                    <h2>1 Response</h2>
+                <% } else if (note.comments.length > 0){ %>
+                    <h2><%= note.comments.length %> Responses</h2>
+                <% } %>    
+                <% note.comments.forEach(function(comment){ %>
                 <div class="dialogbox">
                     <div class="body">
                         <span class="tip tip-up"></span>
@@ -132,21 +206,23 @@
                             <span><%= comment.text %></span>
                         </div>
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-                            <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit"><button>EditComment</button></a>
-                            <form class="delete-form" action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE"
-                                method="POST">
-                                <input type="submit" value="Delete">
-                            </form>
+                        <a href="/notes/<%= note._id %>/comments/<%= comment._id %>/edit">
+                            <button class="edit-comment">Edit</button>
+                        </a>
+                        <form class="delete-form"
+                            action="/notes/<%= note._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <input class="delete-comment" type="submit" value="Delete">
+                        </form>
                         <% } %>
                     </div>
                 </div>
+                <% }); %>
             </div>
-            <% }); %>
         </div>
     </div>
 </div>
 <script>
-    function myFunction() {
+    function newComment() {
         var x = document.getElementById('commentform');
         if (x.style.display === 'none') {
             x.style.display = 'block';
@@ -169,6 +245,6 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMEK33apiDfGBs4sfltinmRJT3xnGAS6s&callback=initMap" async
     defer>
-</script>
+    </script>
 
 <% include ../partials/footer %>
