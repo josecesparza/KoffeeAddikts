@@ -6,13 +6,17 @@
 
     <form action="/notes/<%= note._id %>?_method=PUT" method="POST">
         <div class="flexbox">
-            <input type="text" name="note[name]" value="<%= note.name %>" required>
-            <input type="text" name="note[kind]" value="<%= note.kind %>" required>
+            <input type="text" name="note[name]" value="<%= note.name %>" placeholder="name" required>
+            <input type="text" name="note[kind]" value="<%= note.kind %>" placeholder="kind of koffee" required>
         </div>
 
         <div class="flexbox">
-            <textarea name="note[content]" id="" placeholder="content" cols="30" rows="10"
+            <textarea name="note[content]" placeholder="content" cols="30" rows="10"
                 required><%= note.content %></textarea>
+        </div>
+
+        <div class="flexbox" id="price">
+            <input type="text" name="note[price]" value="<%= note.price %>" placeholder="DKK price" required>
         </div>
 
         <div class="flexbox">
@@ -20,8 +24,8 @@
         </div>
 
         <div class="flexbox" id="coordinates">
-            <input type="text" name="note[location.lat]" value="<%= note.location.lat %>">
-            <input type="text" name="note[location.lng]" value="<%= note.location.lng %>">
+            <input type="text" name="note[location.lat]" value="<%= note.location.lat %>" placeholder="latitude" required>
+            <input type="text" name="note[location.lng]" value="<%= note.location.lng %>" placeholder="longitude" required>
         </div>
 
         <div class="flexbox">

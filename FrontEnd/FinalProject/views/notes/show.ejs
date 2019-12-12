@@ -2,6 +2,27 @@
 <% include ../partials/navbar %>
 
 <style>
+    #kind {
+        color: #a17759;
+    }
+
+    #author {
+        color: #46D80E;
+    }
+
+    #koffee-kind {
+        margin: 0;
+        margin-bottom: 1em;
+    }
+
+    #koffee-explanation {
+        margin: 0;
+    }
+
+    #koffee-explanation-label {
+        font-size: 1.2em;
+    }
+
     /*New Comment*/
     .leave-comment {
         flex: 1;
@@ -131,7 +152,7 @@
         border-radius: 3px;
     }
 
-    #delete-coffee{
+    #delete-coffee {
         font-family: 'Times New Roman', Times, serif;
         font-size: 16px;
         margin-bottom: 1em;
@@ -143,9 +164,16 @@
         <div class="wrapper">
             <div class="info-item aside left-info">
                 <h1 id="koffee-title"><%= note.name %></h1>
-                <p><%= note.content %></p>
-                <h1><%= note.kind %></h1>
-                <p><a href="/user/<%= note.author.id %>"><%= note.author.username %></a></p>
+                <h3 id="koffee-kind">This koffee is a
+                    <span id="kind"><%= note.kind %></span>
+                </h3>
+                <label id="koffee-explanation-label" for="koffee-explanation">Explanation:</label>
+                <p id="koffee-explanation"><%= note.content %></p>
+                <p>Price: <%= note.price %> DKK</p>
+                <p>Created by <a href="/user/<%= note.author.id %>">
+                        <span id="author"><%= note.author.username %></span>
+                    </a>
+                </p>
 
                 <% if(currentUser && note.author.id.equals(currentUser._id)){ %>
                 <a class="edit" href="/notes/<%= note._id %>/edit">Edit</a>
@@ -156,7 +184,7 @@
                 <% } %>
             </div>
             <div class="info-item aside info-img">
-                <img  src="/notes/image/<%= note.image %>">
+                <img src="/notes/image/<%= note.image %>">
             </div>
         </div>
 
