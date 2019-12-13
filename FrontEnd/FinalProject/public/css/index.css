@@ -434,11 +434,11 @@ a {
     background: #2f2f69;
 }
 
-#delete-user>form {
+#delete-user>form, #follow-user>form {
     display: contents;
 }
 
-#delete-user>form>button {
+#delete-user>form>button, #follow-user>form>button  {
     border: none;
     color: #fff;
     padding: 0 5px;
@@ -450,6 +450,10 @@ a {
 
 #delete-user {
     background: #a0271f;
+}
+
+#follow-user{
+    background: #607005;
 }
 
 #user-info-list {

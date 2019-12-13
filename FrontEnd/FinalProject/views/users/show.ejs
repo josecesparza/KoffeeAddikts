@@ -31,6 +31,13 @@
                     </form>
                 </div>
                 <% } %>
+                <% if(currentUser && !currentUser._id.equals(foundUser._id)){ %>
+                <div id="follow-user" class="profile-label">
+                    <form action="/user/<%= foundUser._id %>/follow-user" method="post">
+                        <button>Follow</button>
+                    </form>
+                </div>
+                <% } %>
             </div>
 
             <div>
@@ -54,12 +61,6 @@
                     </li>
                 </ul>
             </div>
-            <% } %>
-
-            <% if(currentUser && !currentUser._id.equals(foundUser._id)){ %>
-            <form action="/user/<%= foundUser._id %>/follow-user" method="post">
-                <input type="submit" value="Follow">
-            </form>
             <% } %>
         </div>
     </div>
