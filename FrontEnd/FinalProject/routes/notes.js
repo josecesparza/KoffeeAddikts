@@ -149,10 +149,10 @@ router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
 
         console.log("imageId" + imageId);
         gfs.delete(new mongoose.Types.ObjectId(imageId), (err, data) => {
-            if (err){
+            if (err) {
                 console.log(err)
-            } 
-            
+            }
+
             Note.findByIdAndRemove(req.params.id, function (err) {
                 if (err) {
                     console.log(err);
@@ -185,39 +185,41 @@ router.get("/image/:filename", (req, res) => {
 
 //CREATE - Add new note to the DB
 router.post("/new", upload.single("file"), function (req, res) {
+    if (req.isAuthenticated() && req.user.isBusiness === true){
 
-    var note = req.body.note;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    };
 
-    var location = {
-        lat: note.lat,
-        lng: note.lng
-    }
+        var note = req.body.note;
+        var author = {
+            id: req.user._id,
+            username: req.user.username
+        };
 
-    var image = {
-        id: req.file.id,
-        filename: req.file.filename
-    }
-
-    var newNote = { name: note.name, content: note.content, author: author, price: note.price, location: location, kind: note.kind, image: image };
-
-    if (note.public == "on") {
-        newNote.public = true;
-    }
-
-    Note.create(newNote, function (err, newlyNote) {
-        if (err) {
-            console.log(err);
-        } else {
-            //redirect back to notes page
-            req.flash("success", newNote.name + " created successfully");
-            res.redirect("/notes");
+        var location = {
+            lat: note.lat,
+            lng: note.lng
         }
-    });
 
+        var image = {
+            id: req.file.id,
+            filename: req.file.filename
+        }
+
+        var newNote = { name: note.name, content: note.content, author: author, price: note.price, location: location, kind: note.kind, image: image };
+
+        if (note.public == "on") {
+            newNote.public = true;
+        }
+
+        Note.create(newNote, function (err, newlyNote) {
+            if (err) {
+                console.log(err);
+            } else {
+                //redirect back to notes page
+                req.flash("success", newNote.name + " created successfully");
+                res.redirect("/notes");
+            }
+        });
+    };
 });
 
 function escapeRegex(text) {
