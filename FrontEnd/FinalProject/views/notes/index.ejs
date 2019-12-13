@@ -25,7 +25,7 @@
         transition: border 0.5s;
     }
 
-    #no-koffees:hover{
+    #no-koffees:hover {
         border: 0.3em solid #121212;
 
     }
@@ -36,38 +36,39 @@
 <div class="parallax">
     <% include ../partials/navbar %>
     <p class="home-phrase">So that you may not be sluggish</p>
-    <% if(notes > 0 || (currentUser && currentUser.isBusiness)){ %>
+    <% if(notes != 0 || (currentUser && currentUser.isBusiness)){ %>
     <a id=arrow href="#coffees"><img src="/svg/arrow.svg"></a>
     <% } else { %>
     <a id=no-koffees href="/contact">Any Questions</a>
     <% } %>
 </div>
 
-<% if(notes > 0 || (currentUser && currentUser.isBusiness)){ %>
+<% if(notes != 0 || (currentUser && currentUser.isBusiness)){ %>
 <div id="coffees">
     <div class="box">
         <% if(notes){ %>
         <% notes.forEach(function(note){ %>
-        <a href="/notes/<%= note._id %>">
-            <div class="card">
+        <div class="card">
+            <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
                     <img src="/notes/image/<%= note.image.filename %>" alt="images">
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         <% }) %>
         <% } %>
         <% if(currentUser && currentUser.isBusiness){ %>
-        <a href="/notes/new">
-            <div class="card">
+
+        <div class="card">
+            <a href="/notes/new">
                 <div id="add-new-coffee">
                     <h2>Add New Coffee</h2>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         <% } %>
     </div>
 </div>

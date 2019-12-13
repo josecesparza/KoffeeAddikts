@@ -69,28 +69,28 @@
 
         <% notes.forEach(function(note) { %>
         <% if(currentUser && currentUser._id.equals(foundUser._id)){ %>
-        <a href="/notes/<%= note._id %>">
-            <div class="card">
+        <div class="card">
+            <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
                     <img src="/notes/image/<%= note.image.filename %>" alt="images">
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         <% } else { %>
         <% if(note.public == true) { %>
-        <a href="/notes/<%= note._id %>">
-            <div class="card">
+        <div class="card">
+            <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
-                    <img src="/es1.png" alt="images">
+                    <img src="/notes/image/<%= note.image.filename %>" alt="images">
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
         <% } %>
         <% } %>
         <% }); %>
