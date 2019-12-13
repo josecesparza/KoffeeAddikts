@@ -6,6 +6,29 @@
     .card {
         backdrop-filter: blur(10px);
     }
+
+    #no-koffees {
+        display: flex;
+        margin: 0 auto;
+        margin-top: 33em;
+        width: fit-content;
+        color: #121212;
+        background-color: #49E20E;
+        border: 0.1em solid #49E20E;
+        padding: 0.35em 1.2em;
+        border-radius: 0.12em;
+        box-sizing: border-box;
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        transition: border 0.5s;
+    }
+
+    #no-koffees:hover{
+        border: 0.3em solid #121212;
+
+    }
 </style>
 
 <% include ../partials/header %>
@@ -13,9 +36,14 @@
 <div class="parallax">
     <% include ../partials/navbar %>
     <p class="home-phrase">So that you may not be sluggish</p>
+    <% if(notes > 0 || (currentUser && currentUser.isBusiness)){ %>
     <a id=arrow href="#coffees"><img src="/svg/arrow.svg"></a>
+    <% } else { %>
+    <a id=no-koffees href="/contact">Any Questions</a>
+    <% } %>
 </div>
 
+<% if(notes > 0 || (currentUser && currentUser.isBusiness)){ %>
 <div id="coffees">
     <div class="box">
         <% if(notes){ %>
@@ -23,7 +51,7 @@
         <a href="/notes/<%= note._id %>">
             <div class="card">
                 <div class="imgBx">
-                    <img src="/notes/image/<%= note.image %>" alt="images">
+                    <img src="/notes/image/<%= note.image.filename %>" alt="images">
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
@@ -35,13 +63,14 @@
         <% if(currentUser && currentUser.isBusiness){ %>
         <a href="/notes/new">
             <div class="card">
-               <div id="add-new-coffee">
-                   <h2>Add New Coffee</h2>
-               </div>
+                <div id="add-new-coffee">
+                    <h2>Add New Coffee</h2>
+                </div>
             </div>
         </a>
         <% } %>
     </div>
 </div>
+<% } %>
 
 <% include ../partials/footer %>

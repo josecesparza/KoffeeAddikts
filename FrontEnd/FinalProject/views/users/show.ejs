@@ -72,7 +72,7 @@
         <a href="/notes/<%= note._id %>">
             <div class="card">
                 <div class="imgBx">
-                    <img src="/notes/image/<%= note.image %>" alt="images">
+                    <img src="/notes/image/<%= note.image.filename %>" alt="images">
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>

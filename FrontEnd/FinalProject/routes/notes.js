@@ -129,7 +129,7 @@ router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
         await session.commitTransaction();
         session.endSession();
         return true;
-    } catch(error){
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
         throw error;
@@ -138,38 +138,54 @@ router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
 
 });
 
+var FILES_COLL = "uploads.files";
+
 //DESTROY ROUTE
 router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
-    
-    Note.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            req.flash("success", "Koffee deleted successfully");
-            res.redirect("/notes");
-        }
+
+    Note.findById(req.params.id, function (err, foundNote) {
+
+        var imageId = foundNote.image.id;
+
+        console.log("imageId" + imageId);
+        gfs.delete(new mongoose.Types.ObjectId(imageId), (err, data) => {
+            if (err){
+                console.log(err)
+            } 
+            
+            Note.findByIdAndRemove(req.params.id, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    req.flash("success", "Koffee deleted successfully");
+                    res.redirect("/notes");
+                }
+            });
+        });
+
+
     });
+
 });
 
 router.get("/image/:filename", (req, res) => {
-    // console.log('id', req.params.id)
     const file = gfs
-      .find({
-        filename: req.params.filename
-      })
-      .toArray((err, files) => {
-        if (!files || files.length === 0) {
-          return res.status(404).json({
-            err: "no files exist"
-          });
-        }
-        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-      });
-  });
+        .find({
+            filename: req.params.filename
+        })
+        .toArray((err, files) => {
+            if (!files || files.length === 0) {
+                return res.status(404).json({
+                    err: "no files exist"
+                });
+            }
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        });
+});
 
 //CREATE - Add new note to the DB
 router.post("/new", upload.single("file"), function (req, res) {
-    
+
     var note = req.body.note;
     var author = {
         id: req.user._id,
@@ -181,10 +197,12 @@ router.post("/new", upload.single("file"), function (req, res) {
         lng: note.lng
     }
 
-    var imageName = req.file.filename;
-    console.log("imageName" + imageName);
+    var image = {
+        id: req.file.id,
+        filename: req.file.filename
+    }
 
-    var newNote = { name: note.name, content: note.content, author: author, location: location, kind: note.kind, image: imageName };
+    var newNote = { name: note.name, content: note.content, author: author, price: note.price, location: location, kind: note.kind, image: image };
 
     if (note.public == "on") {
         newNote.public = true;
