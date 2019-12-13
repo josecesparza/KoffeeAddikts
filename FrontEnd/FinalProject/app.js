@@ -9,10 +9,6 @@ var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 var flash = require('connect-flash');
 
-//Require our seed file, we are just going to use it when we want to seed or clean the database
-var seedDB = require('./seeds');
-// seedDB();
-
 //Connection to the database
 //Local DB
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true, useUnifiedTopology: true });

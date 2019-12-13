@@ -10,25 +10,35 @@ router.get("/register", function (req, res) {
 });
 
 //Handling sign up logic 
-router.post("/register", function (req, res) {
+router.post("/register", async function (req, res) {
     var newUser = new User({ username: req.body.username, name: req.body.name, email: req.body.email });
     if (req.body.businessCode === "secretcode123") {
         newUser.isBusiness = true;
     }
 
-    User.register(newUser, req.body.password, function (err, user) {
-        if (err) {
-            console.log(err);
-            req.flash("error", err.message);
-            res.redirect("back");
-        }
+    const session = await User.startSession();
+    session.startTransaction();
+    try {
+        User.register(newUser, req.body.password, function (err, user) {
+            if (err) {
+                console.log(err);
+                req.flash("error", err.message);
+                res.redirect("back");
+            }
 
-        passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Welcome " + newUser.username + " !");
-            res.redirect("/notes");
+            passport.authenticate("local")(req, res, function () {
+                req.flash("success", "Welcome " + newUser.username + " !");
+                res.redirect("/notes");
+            });
         });
-
-    });
+        await session.commitTransaction();
+        session.endSession();
+        return true;
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
+    }
 });
 
 //LOGIN FORM
@@ -109,7 +119,7 @@ router.delete("/:id", middlewareObj.checkUserOwnership, function (req, res) {
     });
 });
 
-//TEST
+//Follow user route
 router.post("/:id/follow-user", middlewareObj.isLoggedIn, function (req, res) {
 
     // check if the requested user and :user_id is same if same then 
