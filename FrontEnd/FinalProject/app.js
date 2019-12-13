@@ -13,13 +13,9 @@ var flash = require('connect-flash');
 var seedDB = require('./seeds');
 // seedDB();
 
-//Connection to the database, we can choose between our local instance or Mongo Altas
+//Connection to the database
 //Local DB
 mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true, useUnifiedTopology: true });
-
-//Mongo Atlas DB
-// mongoose.connect("mongodb+srv://developerjose:<password>@cluster0-uce7k.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
-
 
 //Make able the public folder to get the content from all the code
 app.use(express.static(__dirname + '/public'));
@@ -78,9 +74,9 @@ app.listen(port, process.env.IP, function () {
 });
 
 // HTTPS SERVER
-// You may see some SSL warning. 
-// That’s because your certificate ain’t issued by any verified organization.
-// What you want to do is, add the cert as an exception to your browser.
+// You'll' see some SSL warning. 
+// That’s because our certificate ain’t issued by any verified organization.
+// We can add exception to our browser or install the cerificate in a trusted server
 
 // const https = require('https');
 // const fs = require('fs');
