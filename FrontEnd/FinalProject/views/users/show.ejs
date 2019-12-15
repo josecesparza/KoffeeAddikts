@@ -73,7 +73,11 @@
         <div class="card">
             <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
+                    <% if(note.image.filename){ %>
                     <img src="/notes/image/<%= note.image.filename %>" alt="images">
+                    <% } else { %>
+                    <img src="/es1.png" alt="images">
+                    <% } %>
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>
@@ -85,7 +89,11 @@
         <div class="card">
             <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
+                    <% if(note.image.filename){ %>
                     <img src="/notes/image/<%= note.image.filename %>" alt="images">
+                    <% } else { %>
+                    <img src="/es1.png" alt="images">
+                    <% } %>
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>

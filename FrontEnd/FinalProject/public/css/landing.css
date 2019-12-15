@@ -1,5 +1,5 @@
 body {
-    background-image: url("../landing-page.jpg");
+    background-image: url("../jpg/landing-page.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -10,6 +10,10 @@ body {
     body{
         background-color: #6F4E37;
     }
+}
+
+.k {
+    color: #49E20E;
 }
 
 .container{

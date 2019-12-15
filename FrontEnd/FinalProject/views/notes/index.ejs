@@ -1,37 +1,6 @@
-<style>
-    html {
-        scroll-behavior: smooth;
-    }
-
-    .card {
-        backdrop-filter: blur(10px);
-    }
-
-    #no-koffees {
-        display: flex;
-        margin: 0 auto;
-        margin-top: 33em;
-        width: fit-content;
-        color: #121212;
-        background-color: #49E20E;
-        border: 0.1em solid #49E20E;
-        padding: 0.35em 1.2em;
-        border-radius: 0.12em;
-        box-sizing: border-box;
-        text-decoration: none;
-        font-family: 'Roboto', sans-serif;
-        font-weight: bold;
-        text-align: center;
-        transition: border 0.5s;
-    }
-
-    #no-koffees:hover {
-        border: 0.3em solid #121212;
-
-    }
-</style>
-
 <% include ../partials/header %>
+
+<link rel="stylesheet" type="text/css" href="/css/notes.css">
 
 <div class="parallax">
     <% include ../partials/navbar %>
@@ -51,7 +20,11 @@
         <div class="card">
             <a href="/notes/<%= note._id %>">
                 <div class="imgBx">
+                    <% if(note.image.filename){ %>
                     <img src="/notes/image/<%= note.image.filename %>" alt="images">
+                    <% } else { %>
+                    <img src="/es1.png" alt="images">
+                    <% } %>
                 </div>
                 <div class="details">
                     <h2><%= note.name %><br><span><%= note.price %>DKK</span></h2>

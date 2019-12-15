@@ -105,7 +105,7 @@ a {
 
 .parallax {
     /* The image used */
-    background-image: url("/coffee-beans.jpg");
+    background-image: url("/jpg/coffee-beans.jpg");
     height: 100%;
     /* Set a specific height */
     min-height: 500px;
@@ -117,7 +117,7 @@ a {
 }
 
 #coffees {
-    background-image: url("/coffee-tools.jpg");
+    background-image: url("/jpg/coffee-tools.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     padding: 2em 2%;

@@ -12,7 +12,7 @@ var multer = require('multer');
 var GridFsStorage = require('multer-gridfs-storage');
 var Grid = require('gridfs-stream');
 // DB
-const mongoURI = "mongodb://localhost:27017/notes_app";
+const mongoURI = "mongodb+srv://developerjose:m0ng0DB!@cluster0-uce7k.mongodb.net/koffee_app?retryWrites=true&w=majority";
 
 // connection
 const conn = mongoose.createConnection(mongoURI, {

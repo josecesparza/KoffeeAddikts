@@ -1,0 +1,27 @@
+#edit-comment-title {
+    text-align: center;
+}
+
+#edit-comment-area {
+    width: 30%;
+    margin: 25px auto;
+}
+
+#edit-comment-textarea {
+    width: 100%;
+    resize: none;
+    color: #fff;
+    background: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+#edit-comment-button {
+    background: #46D80E;
+    border: none;
+    border-radius: 3px;
+    padding: .3em;
+    font-size: 1em;
+    width: 100%;
+}

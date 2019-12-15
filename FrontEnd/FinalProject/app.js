@@ -9,10 +9,13 @@ var LocalStrategy = require('passport-local');
 var User = require('./models/user');
 var flash = require('connect-flash');
 
-//Connection to the database
-//Local DB
-mongoose.connect("mongodb://localhost:27017/notes_app", { useNewUrlParser: true, useUnifiedTopology: true });
+//Require our seed file, we are just going to use it when we want to seed or clean the database
+var seedDB = require('./seeds');
+// seedDB();
 
+//Connection to the database
+//Mongo Atlas DB
+mongoose.connect("mongodb+srv://developerjose:m0ng0DB!@cluster0-uce7k.mongodb.net/koffee_app?retryWrites=true&w=majority", { useNewUrlParser: true });
 //Make able the public folder to get the content from all the code
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
