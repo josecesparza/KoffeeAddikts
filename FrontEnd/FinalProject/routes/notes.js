@@ -1,27 +1,29 @@
+//Require the needed packages
 var express = require('express');
 var router = express.Router();
+//Require note and user model to do the queries in the database
 var Note = require('../models/note');
 var User = require('../models/user');
-
 var middlewareObj = require('../middleware/index');
 
+//Require the needed packages to save images in the database
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var path = require('path');
 var multer = require('multer');
 var GridFsStorage = require('multer-gridfs-storage');
-var Grid = require('gridfs-stream');
-// DB
+// Database URI connection to save images
 const mongoURI = "mongodb+srv://developerjose:m0ng0DB!@cluster0-uce7k.mongodb.net/koffee_app?retryWrites=true&w=majority";
 
-// connection
+// connection to DB to save images
 const conn = mongoose.createConnection(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// init gfs
+// Init gfs module
 let gfs;
+//Opening connection
 conn.once("open", () => {
     // init stream
     gfs = new mongoose.mongo.GridFSBucket(conn.db, {
@@ -29,7 +31,7 @@ conn.once("open", () => {
     });
 });
 
-// Storage
+// Declare storage URI and file
 const storage = new GridFsStorage({
     url: mongoURI,
     file: (req, file) => {
@@ -49,22 +51,28 @@ const storage = new GridFsStorage({
     }
 });
 
+//Saving the storage in the upload variable via the multer module
 const upload = multer({
     storage
 });
 
 //INDEX - Show all the notes
 router.get("/", function (req, res) {
+    //Checking if the user is using the searcher
     if (req.query.search) {
+        //Declaring the regular expression of the search
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        //Looking for coffees where the name or kind match with the regular expression
         Note.find({ $or: [{ name: regex }, { kind: regex }], "public": true }, function (err, regexNotes) {
             if (err) {
                 console.log(err);
             } else {
+                //Rendering the index template with the found coffees
                 res.render("notes/index", { notes: regexNotes });
             }
         });
     } else {
+        //If the user is not using the searcher engine we are gonna render the index coffee with all the public coffees
         Note.find({ "public": true }, function (err, allNotes) {
             if (err) {
                 console.log(err);
@@ -75,14 +83,14 @@ router.get("/", function (req, res) {
     }
 });
 
-//NEW - Show form to create a new note
+//NEW - Show form to create a new coffee
 router.get("/new", middlewareObj.isBusiness, function (req, res) {
     res.render("notes/new")
 });
 
-//SHOW - Show page of each note, show more info about that note
+//SHOW - Show page of each coffee, show more info about that coffee
 router.get("/:id", function (req, res) {
-    //Find note with provided ID
+    //Find coffee with provided ID
     Note.findById(req.params.id).populate("comments").exec(function (err, foundNote) {
         if (err) {
             console.log(err);
@@ -93,7 +101,7 @@ router.get("/:id", function (req, res) {
     });
 });
 
-//EDIT - Show form to edit the note
+//EDIT - Show form to edit the coffee
 router.get("/:id/edit", middlewareObj.checkNoteOwnership, function (req, res) {
     Note.findById(req.params.id, function (err, foundNote) {
         if (err) {
@@ -105,8 +113,9 @@ router.get("/:id/edit", middlewareObj.checkNoteOwnership, function (req, res) {
     });
 });
 
-//UPDATE - Update the edited note in the DB
+//UPDATE - Update the edited coffee in the DB
 router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
+    //Checking if the coffee is public or not
     if (req.body.note.public == "on") {
         req.body.note.public = true;
     } else {
@@ -116,6 +125,7 @@ router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
     const session = await User.startSession();
     session.startTransaction();
     try {
+        //Looking for the coffee to update by ID
         Note.findByIdAndUpdate(req.params.id, req.body.note, function (err, updatedNote) {
             if (err) {
                 console.log(err);
@@ -138,21 +148,20 @@ router.put("/:id", middlewareObj.checkNoteOwnership, async function (req, res) {
 
 });
 
-var FILES_COLL = "uploads.files";
 
 //DESTROY ROUTE
 router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
-
+    //Looking for the coffee to delete by ID
     Note.findById(req.params.id, function (err, foundNote) {
 
         var imageId = foundNote.image.id;
 
-        console.log("imageId" + imageId);
+        //Looking for the image of the specific coffee to delete by image_id
         gfs.delete(new mongoose.Types.ObjectId(imageId), (err, data) => {
             if (err) {
                 console.log(err)
             }
-
+            //Delete the specific coffee
             Note.findByIdAndRemove(req.params.id, function (err) {
                 if (err) {
                     console.log(err);
@@ -168,11 +177,14 @@ router.delete("/:id", middlewareObj.checkNoteOwnership, function (req, res) {
 
 });
 
+//Get route for the uploaded images
 router.get("/image/:filename", (req, res) => {
     const file = gfs
+        //Getting the image by the filename
         .find({
             filename: req.params.filename
         })
+        //Getting the image in an json array
         .toArray((err, files) => {
             if (!files || files.length === 0) {
                 return res.status(404).json({
@@ -183,11 +195,12 @@ router.get("/image/:filename", (req, res) => {
         });
 });
 
-//CREATE - Add new note to the DB
+//CREATE - Add new coffee to the DB
 router.post("/new", upload.single("file"), function (req, res) {
-    if (req.isAuthenticated() && req.user.isBusiness === true){
-
-
+    //Checking if the user is logged in and with a business account
+    //This check is running here because we are using as a middleware the saving image function
+    if (req.isAuthenticated() && req.user.isBusiness === true) {
+        //Defining the new coffee info
         var note = req.body.note;
         var author = {
             id: req.user._id,
@@ -210,6 +223,7 @@ router.post("/new", upload.single("file"), function (req, res) {
             newNote.public = true;
         }
 
+        //Creating the new coffee with the defined info
         Note.create(newNote, function (err, newlyNote) {
             if (err) {
                 console.log(err);
@@ -222,7 +236,10 @@ router.post("/new", upload.single("file"), function (req, res) {
     };
 });
 
+
+//Declaring the regular expression and function
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+//We export the router, it contains all our routes
 module.exports = router;
