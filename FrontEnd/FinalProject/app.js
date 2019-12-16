@@ -15,7 +15,7 @@ var seedDB = require('./seeds');
 
 //Connection to the database
 //Mongo Atlas DB
-mongoose.connect("mongodb+srv://developerjose:m0ng0DB!@cluster0-uce7k.mongodb.net/koffee_app?retryWrites=true&w=majority", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://developerjose:m0ng0DB!@cluster0-uce7k.mongodb.net/koffee_app?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true  });
 //Make able the public folder to get the content from all the code
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride("_method"));
