@@ -77,12 +77,15 @@ app.listen(port, process.env.IP, function () {
 // That’s because our certificate ain’t issued by any verified organization.
 // We can add exception to our browser or install the cerificate in a trusted server
 
+//Require https and fs modules
 // const https = require('https');
 // const fs = require('fs');
 
+//Checking the key and certificate files
 // const options = {
 //   key: fs.readFileSync('key.pem'),
 //   cert: fs.readFileSync('cert.pem')
 // };
 
-// https.createServer(options, app).listen(8000);
+//Starting a HTTPS server
+// https.createServer(options, app).listen(port);
