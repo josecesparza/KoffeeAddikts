@@ -1,2 +1,1 @@
-# UCN
-<h1>This repository is for the projects of the UNI</h1>
+<p>The directory <b>FrontEnd/FinalProject</b> contains the first project of web development bachelor. Created use <b>NodeJS</b>, <b>MongoDB</b> and <b>EJS</b> templates. With npm packages like express, express-session,mongoose, passport, passport-local, ejs, gridfs-stream, multer, multer-gridfs-storage, connect-flash and nodemailer</p>
